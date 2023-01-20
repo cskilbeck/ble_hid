@@ -56,7 +56,7 @@
 
 #define CFG_PRF_HOGPD
 #define CFG_PRF_DISS
-#define CFG_PRF_CUST1
+//!!!#define CFG_PRF_CUST1
 
 /***************************************************************************************/
 /* Profile application configuration section                                           */

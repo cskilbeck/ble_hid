@@ -62,7 +62,7 @@ void app_hogpd_enable(uint8_t conidx)
 {   
     // Allocate the message
 
-	//arch_printf("app_hogpd_enable\n");
+	arch_printf("app_hogpd_enable\n");
     struct hogpd_enable_req * req = KE_MSG_ALLOC(HOGPD_ENABLE_REQ, prf_get_task_from_id(TASK_ID_HOGPD), 
                                                  TASK_APP,
                                                  hogpd_enable_req);
@@ -103,7 +103,7 @@ void app_hogpd_create_db(void)
 {   
     struct hogpd_db_cfg* db_cfg;
 
-		arch_printf("app_hogpd_create_db\n");
+    arch_printf("app_hogpd_create_db\n");
 
     struct gapm_profile_task_add_cmd *req = KE_MSG_ALLOC_DYN(GAPM_PROFILE_TASK_ADD_CMD,
                                                              TASK_GAPM, 

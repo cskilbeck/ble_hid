@@ -8,6 +8,22 @@
 #include "i2c.h"
 #include "i2c_eeprom.h"
 
+// GPIO PINS
+//
+// 0   SPI_DO
+// 1   SPI_EN
+// 2   UART1_TX
+// 3   SPI_DI
+// 4   SPI_CLK
+// 5   UART2_TX
+// 6   
+// 7   
+// 8   
+// 9   DEBUG_LED
+// 10  
+// 11  UART1_RX
+
+
 #define GPIO_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5)))
 #define GPIO_SET_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5) + 2))
 #define GPIO_CLR_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5) + 4))
@@ -50,7 +66,7 @@
 #define GPIO_LED_PIN GPIO_PIN_9
 
 #define SPI_EN_PORT GPIO_PORT_0
-#define SPI_EN_PIN GPIO_PIN_1
+#define SPI_EN_PIN GPIO_PIN_3
 
 #define SPI_CLK_PORT GPIO_PORT_0
 #define SPI_CLK_PIN GPIO_PIN_4

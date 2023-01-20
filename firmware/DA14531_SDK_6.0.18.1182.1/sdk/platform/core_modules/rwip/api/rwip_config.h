@@ -166,7 +166,7 @@
 #endif
 
 #if (defined(CFG_PERIPHERAL)  || defined(CFG_ALLROLES))
-#define BLE_PERIPHERAL          (1)
+//!!!#define BLE_PERIPHERAL          (1)
 #else
 #define BLE_PERIPHERAL          (0)
 #endif
