@@ -1,5 +1,8 @@
-#ifndef _USER_PERIPH_SETUP_H_
-#define _USER_PERIPH_SETUP_H_
+//////////////////////////////////////////////////////////////////////
+
+#pragma once
+
+//////////////////////////////////////////////////////////////////////
 
 #include "gpio.h"
 #include "uart.h"
@@ -8,21 +11,17 @@
 #include "i2c.h"
 #include "i2c_eeprom.h"
 
-// GPIO PINS
-//
-// 0   SPI_DO
-// 1   SPI_EN
-// 2   UART1_TX
-// 3   SPI_DI
-// 4   SPI_CLK
-// 5   UART2_TX
-// 6   
-// 7   
-// 8   
-// 9   DEBUG_LED
-// 10  
-// 11  UART1_RX
+//////////////////////////////////////////////////////////////////////
 
+typedef uint32_t uint32;
+typedef uint16_t uint16;
+typedef uint8_t uint8;
+typedef int32_t int32;
+typedef int16_t int16;
+typedef int8_t int8;
+typedef uint8_t byte;
+
+//////////////////////////////////////////////////////////////////////
 
 #define GPIO_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5)))
 #define GPIO_SET_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5) + 2))
@@ -32,6 +31,24 @@
 #define GPIO_SET(port, pin) (GPIO_SET_DATA_REG(port) = (1 << pin))
 #define GPIO_CLEAR(port, pin) (GPIO_CLR_DATA_REG(port) = (1 << pin))
 #define GPIO_TOGGLE(port, pin) (GPIO_DATA_REG(port) ^= (1 << pin))
+
+//////////////////////////////////////////////////////////////////////
+// GPIO PINS
+//
+// 0   
+// 1   
+// 2   UART1_TX
+// 3   
+// 4   
+// 5   UART2_TX
+// 6   
+// 7   
+// 8   
+// 9   DEBUG_LED
+// 10  
+// 11  UART1_RX
+
+//////////////////////////////////////////////////////////////////////
 
 #define UART2_TX_PORT GPIO_PORT_0
 #define UART1_TX_PORT GPIO_PORT_0
@@ -77,11 +94,7 @@
 #define SPI_DI_PORT GPIO_PORT_0
 #define SPI_DI_PIN GPIO_PIN_3
 
-#if PRODUCTION_DEBUG_OUTPUT
-#define PRODUCTION_DEBUG_PORT GPIO_PORT_0
-#define PRODUCTION_DEBUG_PIN GPIO_PIN_11
-#endif
-
+//////////////////////////////////////////////////////////////////////
 
 #if DEVELOPMENT_DEBUG
 void GPIO_reservations(void);
@@ -90,5 +103,3 @@ void GPIO_reservations(void);
 void set_pad_functions(void);
 void periph_init(void);
 
-
-#endif    // _USER_PERIPH_SETUP_H_

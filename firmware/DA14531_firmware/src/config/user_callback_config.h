@@ -1,42 +1,8 @@
-/**
- ****************************************************************************************
- *
- * @file user_callback_config.h
- *
- * @brief Callback functions configuration file.
- *
- * Copyright (c) 2015-2019 Dialog Semiconductor. All rights reserved.
- *
- * This software ("Software") is owned by Dialog Semiconductor.
- *
- * By using this Software you agree that Dialog Semiconductor retains all
- * intellectual property and proprietary rights in and to this Software and any
- * use, reproduction, disclosure or distribution of the Software without express
- * written permission or a license agreement from Dialog Semiconductor is
- * strictly prohibited. This Software is solely for use on or in conjunction
- * with Dialog Semiconductor products.
- *
- * EXCEPT AS OTHERWISE PROVIDED IN A LICENSE AGREEMENT BETWEEN THE PARTIES, THE
- * SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. EXCEPT AS OTHERWISE
- * PROVIDED IN A LICENSE AGREEMENT BETWEEN THE PARTIES, IN NO EVENT SHALL
- * DIALOG SEMICONDUCTOR BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT, INCIDENTAL,
- * OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
- * USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
- * OF THE SOFTWARE.
- *
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
 
-#ifndef _USER_CALLBACK_CONFIG_H_
-#define _USER_CALLBACK_CONFIG_H_
+#pragma once
 
-/*
- * INCLUDE FILES
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
 #include "app_callback.h"
@@ -47,15 +13,11 @@
 #include "app_bond_db.h"
 #endif // (BLE_APP_SEC)
 
-#if (BLE_HID_DEVICE)
-#include "app_hogpd.h"
-#endif
+//////////////////////////////////////////////////////////////////////
+
 #include "user_peripheral.h"
 
-/*
- * LOCAL VARIABLE DEFINITIONS
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
 
 static const struct app_callbacks user_app_callbacks = {
     .app_on_connection                  = user_app_connection,
@@ -110,13 +72,24 @@ static const struct app_bond_db_callbacks user_app_bond_db_callbacks = {
 #endif // (BLE_APP_SEC)
 
 
+//////////////////////////////////////////////////////////////////////
 /*
  * "app_process_catch_rest_cb" symbol handling:
  * - Use #define if "user_catch_rest_hndl" is defined by the user
  * - Use const declaration if "user_catch_rest_hndl" is NULL
  */
+
 #define app_process_catch_rest_cb       user_catch_rest_hndl
 // static const catch_rest_event_func_t app_process_catch_rest_cb = NULL;
+
+//////////////////////////////////////////////////////////////////////
+// Default Handler Operations
+
+static const struct default_app_operations user_default_app_operations = {
+    .default_operation_adv = user_app_adv_start,
+};
+
+//////////////////////////////////////////////////////////////////////
 
 static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
     .app_on_init            = user_app_init,
@@ -139,21 +112,13 @@ static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
     .app_resume_from_sleep  = NULL,
 };
 
-// Default Handler Operations
-static const struct default_app_operations user_default_app_operations = {
-    .default_operation_adv = user_app_adv_start,
-};
-
+//////////////////////////////////////////////////////////////////////
 // Place in this structure the app_<profile>_db_create and app_<profile>_enable functions
 // for SIG profiles that do not have this function already implemented in the SDK
 // or if you want to override the functionality. Check the prf_func array in the SDK
 // for your reference of which profiles are supported.
+
 static const struct prf_func_callbacks user_prf_funcs[] =
 {
-#if BLE_HID_DEVICE
-		{TASK_ID_HOGPD,			app_hogpd_create_db, app_hogpd_enable},
-#endif
     {TASK_ID_INVALID,    NULL, NULL}   // DO NOT MOVE. Must always be last
 };
-
-#endif // _USER_CALLBACK_CONFIG_H_

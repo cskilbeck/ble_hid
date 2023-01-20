@@ -1,3 +1,5 @@
+//////////////////////////////////////////////////////////////////////
+
 #include "user_periph_setup.h"
 #include "datasheet.h"
 #include "system_library.h"
@@ -7,16 +9,53 @@
 #include "syscntl.h"
 #include "arch_console.h"
 
-#if DEVELOPMENT_DEBUG
+//////////////////////////////////////////////////////////////////////
 
-typedef uint32_t uint32;
-typedef uint16_t uint16;
-typedef uint8_t uint8;
-typedef int32_t int32;
-typedef int16_t int16;
-typedef int8_t int8;
-typedef uint8_t byte;
-;
+static void uart1_err_callback(uart_t *uart, uint8_t uart_err_status);
+static void uart1_tx_callback(uint16_t data_cnt);
+static void uart1_rx_callback(uint16_t data_cnt);
+
+//////////////////////////////////////////////////////////////////////
+
+uint8_t uart1_buffer;
+int uart_rx_byte_count;
+uint8_t uart_rx_data[4];
+uint8_t uart_tx_data[4];
+
+// Configuration struct for UART1
+static const uart_cfg_t uart1_cfg = { .baud_rate = UART1_BAUDRATE,
+                                      .data_bits = UART1_DATABITS,
+                                      .parity = UART1_PARITY,
+                                      .stop_bits = UART1_STOPBITS,
+                                      .auto_flow_control = UART1_AFCE,
+                                      .use_fifo = UART1_FIFO,
+                                      .tx_fifo_tr_lvl = UART1_TX_FIFO_LEVEL,
+                                      .rx_fifo_tr_lvl = UART1_RX_FIFO_LEVEL,
+                                      .intr_priority = 2,
+                                      .uart_rx_cb = uart1_rx_callback,
+                                      .uart_err_cb = uart1_err_callback,
+                                      .uart_tx_cb = uart1_tx_callback };
+
+//////////////////////////////////////////////////////////////////////
+
+#if defined(CFG_PRINTF_UART2)
+
+static const uart_cfg_t uart_cfg = {
+    .baud_rate = UART2_BAUDRATE,
+    .data_bits = UART2_DATABITS,
+    .parity = UART2_PARITY,
+    .stop_bits = UART2_STOPBITS,
+    .auto_flow_control = UART2_AFCE,
+    .use_fifo = UART2_FIFO,
+    .tx_fifo_tr_lvl = UART2_TX_FIFO_LEVEL,
+    .rx_fifo_tr_lvl = UART2_RX_FIFO_LEVEL,
+    .intr_priority = 2,
+};
+#endif
+
+//////////////////////////////////////////////////////////////////////
+
+#if DEVELOPMENT_DEBUG
 
 void GPIO_reservations(void)
 {
@@ -34,6 +73,8 @@ void GPIO_reservations(void)
 }
 
 #endif
+
+//////////////////////////////////////////////////////////////////////
 
 void set_pad_functions(void)
 {
@@ -53,27 +94,12 @@ void set_pad_functions(void)
     GPIO_ConfigurePin(UART1_TX_PORT, UART1_TX_PIN, OUTPUT, PID_UART1_TX, false);
 }
 
-#if defined(CFG_PRINTF_UART2)
-
-static const uart_cfg_t uart_cfg = {
-    .baud_rate = UART2_BAUDRATE,
-    .data_bits = UART2_DATABITS,
-    .parity = UART2_PARITY,
-    .stop_bits = UART2_STOPBITS,
-    .auto_flow_control = UART2_AFCE,
-    .use_fifo = UART2_FIFO,
-    .tx_fifo_tr_lvl = UART2_TX_FIFO_LEVEL,
-    .rx_fifo_tr_lvl = UART2_RX_FIFO_LEVEL,
-    .intr_priority = 2,
-};
-#endif
-
-uint8_t uart1_buffer;
-
-char txt[10];
+//////////////////////////////////////////////////////////////////////
 
 static void print_uint32(uint32_t x)
 {
+    static char txt[10];
+
     for(int i = 0; i < 8; ++i) {
         uint32_t b = (x >> 28) + '0';
         if(b > '9') {
@@ -87,11 +113,9 @@ static void print_uint32(uint32_t x)
     arch_printf(txt);
 }
 
-int byte_count;
-uint8_t uart_rx_data[4];
-uint8_t uart_tx_data[4];
-
+//////////////////////////////////////////////////////////////////////
 // send a 21 bit message (32 bits with checksum and id bits)
+
 void send_message(uint32 message)
 {
     int d0 = message & 0x7f;
@@ -103,6 +127,8 @@ void send_message(uint32 message)
     uart_tx_data[3] = d0;
     uart_send(UART1, uart_tx_data, 4, UART_OP_INTR);
 }
+
+//////////////////////////////////////////////////////////////////////
 
 uint32 decode_message(byte data[4])
 {
@@ -116,6 +142,8 @@ uint32 decode_message(byte data[4])
     return 0xffffffff;
 }
 
+//////////////////////////////////////////////////////////////////////
+
 static void uart1_rx_callback(uint16_t data_cnt)
 {
     uint8_t got_byte = uart1_buffer;
@@ -123,7 +151,7 @@ static void uart1_rx_callback(uint16_t data_cnt)
 
     // if top bit is set, it's a checksum byte, grab it and reset stuff
     if((got_byte & 0x80) != 0) {
-        byte_count = 0;
+        uart_rx_byte_count = 0;
         uart_rx_data[0] = got_byte & 0x7f;
         arch_printf("Got checksum: ");
         print_uint32(got_byte & 0xff);
@@ -131,9 +159,9 @@ static void uart1_rx_callback(uint16_t data_cnt)
         // if top bit is clear, it's a data byte, add it to the data and if got 3 check it
         arch_printf("Got byte    : ");
         print_uint32(got_byte & 0xff);
-        byte_count += 1;
-        uart_rx_data[byte_count] = got_byte & 0x7f;
-        if(byte_count == 3) {
+        uart_rx_byte_count += 1;
+        uart_rx_data[uart_rx_byte_count] = got_byte & 0x7f;
+        if(uart_rx_byte_count == 3) {
             uint32_t payload = decode_message(uart_rx_data);
             if(payload == 0xffffffff) {
                 arch_printf("Err, expected ");
@@ -144,32 +172,24 @@ static void uart1_rx_callback(uint16_t data_cnt)
                 send_message(payload);
                 GPIO_TOGGLE(GPIO_LED_PORT, GPIO_LED_PIN);
             }
-            byte_count = 0;
+            uart_rx_byte_count = 0;
         }
     }
 }
+
+//////////////////////////////////////////////////////////////////////
 
 static void uart1_tx_callback(uint16_t data_cnt)
 {
 }
 
+//////////////////////////////////////////////////////////////////////
+
 static void uart1_err_callback(uart_t *uart, uint8_t uart_err_status)
 {
 }
 
-// Configuration struct for UART1
-static const uart_cfg_t uart1_cfg = { .baud_rate = UART1_BAUDRATE,
-                                      .data_bits = UART1_DATABITS,
-                                      .parity = UART1_PARITY,
-                                      .stop_bits = UART1_STOPBITS,
-                                      .auto_flow_control = UART1_AFCE,
-                                      .use_fifo = UART1_FIFO,
-                                      .tx_fifo_tr_lvl = UART1_TX_FIFO_LEVEL,
-                                      .rx_fifo_tr_lvl = UART1_RX_FIFO_LEVEL,
-                                      .intr_priority = 2,
-                                      .uart_rx_cb = uart1_rx_callback,
-                                      .uart_err_cb = uart1_err_callback,
-                                      .uart_tx_cb = uart1_tx_callback };
+//////////////////////////////////////////////////////////////////////
 
 void periph_init(void)
 {
@@ -189,7 +209,6 @@ void periph_init(void)
 
     // Initialize peripherals
 #if defined(CFG_PRINTF_UART2)
-    // Initialize UART2
     uart_initialize(UART2, &uart_cfg);
 #endif
 

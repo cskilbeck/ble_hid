@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Fri Jan 20 18:14:11 2023
+;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Fri Jan 20 23:26:37 2023
 ;VERSION 0.2
 ;FILE adc_531.o
 adc_correct_sample <= USED 0
@@ -72,6 +72,8 @@ app_easy_security_ltk_exch_get_active <= USED 0
 app_easy_security_pairing_rsp_get_active <= USED 0
 app_easy_security_ral_op <= USED 0
 app_easy_security_ral_sync_with_bdb <= USED 0
+app_easy_security_request <= USED 0
+app_easy_security_request_get_active <= USED 0
 app_easy_security_resolve_bdaddr <= USED 0
 app_easy_security_set_ltk_exch <= USED 0
 app_easy_security_tk_get_active <= USED 0
@@ -80,11 +82,6 @@ app_easy_timer_cancel_all <= USED 0
 app_easy_timer_modify <= USED 0
 ;FILE app_easy_whitelist.o
 app_easy_manage_wlist <= USED 0
-;FILE app_hogpd.o
-app_hogpd_get_protocol_mode <= USED 0
-app_hogpd_report_handle <= USED 0
-app_hogpd_send_report <= USED 0
-;FILE app_hogpd_task.o
 ;FILE app_msg_utils.o
 app_msg_send_wakeup_ble <= USED 0
 ;FILE app_security.o
@@ -128,7 +125,6 @@ GPIO_is_valid <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hash.o
 hash <= USED 0
-;FILE hogpd.o
 ;FILE hw_otpc_531.o
 hw_otpc_prog <= USED 0
 hw_otpc_prog_and_verify <= USED 0
@@ -272,23 +268,9 @@ uart_disable_flow_control <= USED 0
 uart_enable_flow_control <= USED 0
 uart_register_err_cb <= USED 0
 uart_register_rx_cb <= USED 0
-;FILE user_gamepad.o
-adc_get_raw_sample <= USED 0
-deadzone_check <= USED 0
-user_add_mt_index <= USED 0
-user_gamepad_axis_polling_cb <= USED 0
-user_gamepad_button_cb <= USED 0
-user_gamepad_button_config <= USED 0
-user_gamepad_enable_buttons <= USED 0
-user_gamepad_register_button <= USED 0
-user_gamepad_send_report <= USED 0
-user_gamepad_update_joystick <= USED 0
-user_get_avlb_mt_index <= USED 0
-user_remove_mt_index <= USED 0
-user_sample_conv <= USED 0
-user_usDelay <= USED 0
 ;FILE user_periph_setup.o
 ;FILE user_peripheral.o
+user_custs1_server_rx_ind_handler <= USED 0
 user_custs1_server_tx_cfg_ind_handler <= USED 0
 user_custs1_server_tx_ntf_cfm_handler <= USED 0
 ;FILE wkupct_quadec.o

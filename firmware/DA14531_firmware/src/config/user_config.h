@@ -1,42 +1,8 @@
-/**
- ****************************************************************************************
- *
- * @file user_config.h
- *
- * @brief User configuration file.
- *
- * Copyright (c) 2015-2019 Dialog Semiconductor. All rights reserved.
- *
- * This software ("Software") is owned by Dialog Semiconductor.
- *
- * By using this Software you agree that Dialog Semiconductor retains all
- * intellectual property and proprietary rights in and to this Software and any
- * use, reproduction, disclosure or distribution of the Software without express
- * written permission or a license agreement from Dialog Semiconductor is
- * strictly prohibited. This Software is solely for use on or in conjunction
- * with Dialog Semiconductor products.
- *
- * EXCEPT AS OTHERWISE PROVIDED IN A LICENSE AGREEMENT BETWEEN THE PARTIES, THE
- * SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. EXCEPT AS OTHERWISE
- * PROVIDED IN A LICENSE AGREEMENT BETWEEN THE PARTIES, IN NO EVENT SHALL
- * DIALOG SEMICONDUCTOR BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT, INCIDENTAL,
- * OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
- * USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
- * OF THE SOFTWARE.
- *
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
 
-#ifndef _USER_CONFIG_H_
-#define _USER_CONFIG_H_
+#pragma once
 
-/*
- * INCLUDE FILES
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
 
 #include "app_user_config.h"
 #include "arch_api.h"
@@ -44,18 +10,7 @@
 #include "app_adv_data.h"
 #include "co_bt.h"
 
-/*
- * DEFINES
- ****************************************************************************************
- */
-
-/*
- ****************************************************************************************
- *
- * Privacy / Addressing configuration
- *
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
 
 /*************************************************************************
  * Privacy Capabilities and address configuration of local device:
@@ -97,13 +52,9 @@
  */
 static const sleep_state_t app_default_sleep_mode = ARCH_SLEEP_OFF;
 
-/*
- ****************************************************************************************
- *
- * Advertising configuration
- *
- ****************************************************************************************
- */
+//////////////////////////////////////////////////////////////////////
+// Advertising configuration
+
 static const struct advertise_configuration user_adv_conf = {
 
     .addr_src = APP_CFG_ADDR_SRC(USER_CFG_ADDRESS_MODE),
@@ -345,7 +296,7 @@ static const struct default_handlers_configuration  user_default_hnd_conf = {
     // Possible values:
     //  - DEF_SEC_REQ_NEVER
     //  - DEF_SEC_REQ_ON_CONNECT
-    .security_request_scenario = DEF_SEC_REQ_ON_CONNECT
+    .security_request_scenario = DEF_SEC_REQ_NEVER
 };
 
 /*
@@ -502,5 +453,3 @@ static const struct security_configuration user_security_conf = {
     .sec_req        = GAP_NO_SEC,
     #endif
 };
-
-#endif // _USER_CONFIG_H_
