@@ -1,0 +1,5 @@
+*.uvguix.*
+*.uvoptx
+out_DA14531/
+JLinkLog.txt
+JLinkSettings.ini
