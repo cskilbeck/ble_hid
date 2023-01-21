@@ -1,8 +1,9 @@
-;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Fri Jan 20 23:26:37 2023
+;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Sat Jan 21 10:31:50 2023
 ;VERSION 0.2
 ;FILE adc_531.o
 adc_correct_sample <= USED 0
 adc_disable <= USED 0
+adc_enable <= USED 0
 adc_get_sample <= USED 0
 adc_get_temp_async <= USED 0
 adc_input_shift_config <= USED 0
@@ -11,6 +12,11 @@ adc_input_shift_enable <= USED 0
 adc_offset_calibrate <= USED 0
 adc_register_interrupt <= USED 0
 adc_reset <= USED 0
+adc_set_diff_input <= USED 0
+adc_set_se_input <= USED 0
+adc_start <= USED 0
+adc_temp_sensor_disable <= USED 0
+adc_temp_sensor_enable <= USED 0
 adc_unregister_interrupt <= USED 0
 ;FILE app.o
 app_easy_gap_advertise_with_timeout_stop <= USED 0
@@ -67,6 +73,7 @@ app_easy_security_bdb_get_stored_irks <= USED 0
 app_easy_security_bdb_init <= USED 0
 app_easy_security_bdb_remove_entry <= USED 0
 app_easy_security_csrk_get_active <= USED 0
+app_easy_security_encrypt_cfm <= USED 0
 app_easy_security_encrypt_cfm_get_active <= USED 0
 app_easy_security_ltk_exch_get_active <= USED 0
 app_easy_security_pairing_rsp_get_active <= USED 0
@@ -75,6 +82,8 @@ app_easy_security_ral_sync_with_bdb <= USED 0
 app_easy_security_request <= USED 0
 app_easy_security_request_get_active <= USED 0
 app_easy_security_resolve_bdaddr <= USED 0
+app_easy_security_set_encrypt_req_invalid <= USED 0
+app_easy_security_set_encrypt_req_valid <= USED 0
 app_easy_security_set_ltk_exch <= USED 0
 app_easy_security_tk_get_active <= USED 0
 ;FILE app_easy_timer.o
@@ -101,10 +110,13 @@ arch_ble_ext_wakeup_off <= USED 0
 arch_ble_ext_wakeup_on <= USED 0
 arch_last_rwble_evt_get <= USED 0
 arch_set_deep_sleep <= USED 0
+arch_set_extended_sleep <= USED 0
 ;FILE arch_system.o
 arch_set_pxact_gpio <= USED 0
 arch_wkupct_tweak_deb_time <= USED 0
 check_sys_startup_period <= USED 0
+lld_sleep_lpcycles_2_us_rcx_func <= USED 0
+lld_sleep_us_2_lpcycles_rcx_func <= USED 0
 ;FILE battery.o
 battery_get_lvl <= USED 0
 battery_get_voltage <= USED 0
@@ -119,7 +131,11 @@ GPIO_GetPinFunction <= USED 0
 GPIO_GetPinStatus <= USED 0
 GPIO_GetPorTime <= USED 0
 GPIO_RegisterCallback <= USED 0
+GPIO_ResetIRQ <= USED 0
+GPIO_SetActive <= USED 0
 GPIO_SetIRQInputLevel <= USED 0
+GPIO_SetInactive <= USED 0
+GPIO_SetPinFunction <= USED 0
 GPIO_SetPorTime <= USED 0
 GPIO_is_valid <= USED 0
 ;FILE hardfault_handler.o
@@ -129,6 +145,7 @@ hash <= USED 0
 hw_otpc_prog <= USED 0
 hw_otpc_prog_and_verify <= USED 0
 hw_otpc_read <= USED 0
+hw_otpc_set_speed <= USED 0
 hw_otpc_word_prog_and_verify <= USED 0
 hw_otpc_word_read <= USED 0
 ;FILE i2c.o
@@ -174,12 +191,18 @@ otp_cs_get_low_power_clock <= USED 0
 ;FILE prf.o
 ;FILE rf_531.o
 dcoff_calibration <= USED 0
+dis_adpll <= USED 0
+dis_hclk <= USED 0
 dis_kdco_cal <= USED 0
+dis_kdtc_cal <= USED 0
 en_hclk <= USED 0
+en_kdtc_cal_mod0 <= USED 0
 en_kdtc_cal_mod1 <= USED 0
 kdco_cal_end <= USED 0
 kdco_cal_init <= USED 0
 kdco_calibration <= USED 0
+kdtc_cal_end <= USED 0
+kdtc_cal_init <= USED 0
 rf_adplldig_ldo_on <= USED 0
 rf_adplldig_txmod <= USED 0
 rf_ldo_cont_mode_en <= USED 0
@@ -187,9 +210,10 @@ rf_nfm_disable <= USED 0
 rf_nfm_enable <= USED 0
 rf_power_down <= USED 0
 ;FILE rwble.o
+power_up <= USED 0
 ;FILE rwip.o
+patched_ble_regs_push <= USED 0
 ;FILE spi_531.o
-__ARM_clz <= USED 0
 spi_access <= USED 0
 spi_cs_high <= USED 0
 spi_cs_low <= USED 0
@@ -263,12 +287,21 @@ syscntl_por_vbat_low_cfg <= USED 0
 SystemCoreClockUpdate <= USED 0
 ;FILE trng.o
 ;FILE uart.o
+uart_baudrate_setf <= USED 0
 uart_disable <= USED 0
 uart_disable_flow_control <= USED 0
+uart_enable <= USED 0
 uart_enable_flow_control <= USED 0
+uart_read_buffer <= USED 0
+uart_read_byte <= USED 0
 uart_register_err_cb <= USED 0
 uart_register_rx_cb <= USED 0
+uart_write_buffer <= USED 0
+uart_write_byte <= USED 0
 ;FILE user_periph_setup.o
+decode_message <= USED 0
+send_message <= USED 0
+set_pad_functions <= USED 0
 ;FILE user_peripheral.o
 user_custs1_server_rx_ind_handler <= USED 0
 user_custs1_server_tx_cfg_ind_handler <= USED 0

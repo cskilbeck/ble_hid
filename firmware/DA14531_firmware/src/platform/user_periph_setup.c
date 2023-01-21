@@ -9,6 +9,8 @@
 #include "syscntl.h"
 #include "arch_console.h"
 
+void send_payload(int32 payload);
+
 //////////////////////////////////////////////////////////////////////
 
 static void uart1_err_callback(uart_t *uart, uint8_t uart_err_status);
@@ -96,7 +98,7 @@ void set_pad_functions(void)
 
 //////////////////////////////////////////////////////////////////////
 
-static void print_uint32(uint32_t x)
+void print_uint32(uint32_t x)
 {
     static char txt[10];
 
@@ -157,20 +159,19 @@ static void uart1_rx_callback(uint16_t data_cnt)
         print_uint32(got_byte & 0xff);
     } else {
         // if top bit is clear, it's a data byte, add it to the data and if got 3 check it
-        arch_printf("Got byte    : ");
-        print_uint32(got_byte & 0xff);
         uart_rx_byte_count += 1;
         uart_rx_data[uart_rx_byte_count] = got_byte & 0x7f;
         if(uart_rx_byte_count == 3) {
             uint32_t payload = decode_message(uart_rx_data);
-            if(payload == 0xffffffff) {
-                arch_printf("Err, expected ");
-                print_uint32(uart_rx_data[0]);
-            } else {
-                arch_printf("Got message ");
-                print_uint32(payload);
+            if(payload != 0xffffffff) {
                 send_message(payload);
                 GPIO_TOGGLE(GPIO_LED_PORT, GPIO_LED_PIN);
+                arch_printf("Got message ");
+                print_uint32(payload);
+                send_payload(payload);
+            } else {
+                arch_printf("Err, expected ");
+                print_uint32(uart_rx_data[0]);
             }
             uart_rx_byte_count = 0;
         }

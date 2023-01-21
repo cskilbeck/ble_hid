@@ -17,8 +17,8 @@
 #define EXCLUDE_DLG_GAP             (0)
 #define EXCLUDE_DLG_TIMER           (0)
 #define EXCLUDE_DLG_SEC             (0)
-#define EXCLUDE_DLG_DISS            (0)
 #define EXCLUDE_DLG_CUSTS1          (0)
+#define EXCLUDE_DLG_DISS            (0)
 
 // THESE MODULES ARE NOT INCLUDED, THAT IS TO SAY THEY ARE EXCLUDED
 
