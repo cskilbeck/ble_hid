@@ -73,10 +73,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define ENC0_A_Pin LL_GPIO_PIN_0
+#define ENC0_A_GPIO_Port GPIOF
+#define ENC0_B_Pin LL_GPIO_PIN_1
+#define ENC0_B_GPIO_Port GPIOF
 #define BTN1_WAKE_Pin LL_GPIO_PIN_0
 #define BTN1_WAKE_GPIO_Port GPIOA
-#define DEBUG_Pin LL_GPIO_PIN_1
-#define DEBUG_GPIO_Port GPIOA
+#define BTN2_Pin LL_GPIO_PIN_1
+#define BTN2_GPIO_Port GPIOA
 #define DEBUG_LED_Pin LL_GPIO_PIN_4
 #define DEBUG_LED_GPIO_Port GPIOA
 #ifndef NVIC_PRIORITYGROUP_0

@@ -28,8 +28,10 @@ uint8 const led_gamma[256] = {
 
 //////////////////////////////////////////////////////////////////////
 
-volatile uint32 ticks;    // 10Khz tick
-button btn1;              // button1 - action / wakeup
+volatile uint32 ticks;       // 10Khz tick
+button btn1;                 // button1 - action / wakeup
+button btn2;                 // button2 - encoder 0 click
+rotary_encoder encoder_0;    // 1st rotary encoder
 
 int32 sent_payload;
 uint32 uart_rx_word;
@@ -40,15 +42,63 @@ byte uart_tx_buffer[4];
 static constexpr uint32 idle_standby_ticks = 10 * 10000;
 
 //////////////////////////////////////////////////////////////////////
+// rotary encoder reader
+
+int rotary_encoder::update(int inputs)
+{
+    //////////////////////////////////////////////////////////////////////
+    // Valid transitions are:
+    // 1    00 .. 01
+    // 2    00 .. 10
+    // 4    01 .. 00
+    // 7    01 .. 11
+    // 8    10 .. 00
+    // 11   10 .. 11
+    // 13   11 .. 01
+    // 14   11 .. 10
+
+    // bitmask of which 2-state histories are valid (see table above)
+    static constexpr uint16 valid_rotary_state_mask = 0x6996;
+
+    // then, to just get one increment per cycle:
+
+    // 11 .. 10 .. 00 is one way
+    // 00 .. 10 .. 11 is the other way
+
+    // So:
+    // E8 = 11,10 .. 10,00  --> one way
+    // 2B = 00,10 .. 10,11  <-- other way
+
+    static constexpr int ROTARY_CLOCKWISE = 0xE8;
+    static constexpr int ROTARY_ANTICLOCKWISE = 0x2B;
+
+    state = ((state << 2) | inputs) & 0xf;
+
+    // many states are invalid (noisy switches) so ignore them
+    if((valid_rotary_state_mask & (1 << state)) != 0) {
+        // certain state patterns mean rotation happened
+        store = (store << 4) | state;
+        switch(store) {
+        case ROTARY_CLOCKWISE:
+            return 1;
+        case ROTARY_ANTICLOCKWISE:
+            return -1;
+        }
+    }
+    return 0;
+}
+
+//////////////////////////////////////////////////////////////////////
 // button debouncer
 
-void button::update(int state)
+bool button::update(int state)
 {
     history = (history << 1) | state;
-    pressed |= history == bit_on_mask;
-    released |= history == bit_off_mask;
+    pressed = history == bit_on_mask;
+    released = history == bit_off_mask;
     held |= pressed;
-    held &= ~released;
+    held &= !released;
+    return pressed || released;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -168,28 +218,7 @@ extern "C" void user_main(void)
     }
 
     // main loop
-    uint32 idle_ticks = ticks;
-    uint32 i = 0;
     while(1) {
-        set_led_rgb24(ticks >> 6, ticks >> 7, ticks >> 8);
-        bool send_it = false;
-        if(btn1.pressed) {
-            btn1.pressed = 0;
-            send_it = true;
-        }
-        if(btn1.released) {
-            btn1.released = 0;
-            send_it = true;
-        }
-        if(send_it) {
-            idle_ticks = ticks;
-            sent_payload = send_message(((ticks & 0xff) << 8) | btn1.held);
-        }
-#if !defined(DISABLE_STANDBY)
-        if((ticks - idle_ticks) > idle_standby_ticks) {
-            enter_standby_mode();
-        }
-#endif
         __WFI();
     }
 }
@@ -198,7 +227,7 @@ extern "C" void user_main(void)
 
 extern "C" void uart_irq_handler(void)
 {
-    // done transmitting via DMA?
+    // done transmitting last byte?
     if(LL_USART_IsActiveFlag_TC(USART1)) {
         LL_USART_ClearFlag_TC(USART1);
         uart_tx_busy = false;
@@ -206,12 +235,17 @@ extern "C" void uart_irq_handler(void)
 
     // received a byte?
     if(LL_USART_IsActiveFlag_RXNE(USART1)) {
-        byte b = LL_USART_ReceiveData8(USART1);    // reading the char clears the irq I guess?
+
+        // reading the char clears the irq I guess?
+        byte b = LL_USART_ReceiveData8(USART1);
 
         // top bit set means it's a checksum, which comes first
         if((b & 0x80) != 0) {
+
             uart_rx_word = b;
+
         } else {
+
             // else copy the byte into the buffer
             uart_rx_word = (uart_rx_word << 8) | b;
 
@@ -235,8 +269,39 @@ extern "C" void uart_irq_handler(void)
 extern "C" void timer14_irq_handler(void)
 {
     LL_TIM_ClearFlag_UPDATE(TIM14);
-    btn1.update((BTN1_WAKE_GPIO_Port->IDR & BTN1_WAKE_Pin) != 0);
+
+    bool send = false;
+
+    int btn1_state = READ_GPIO(BTN1_WAKE_GPIO_Port, BTN1_WAKE_Pin);
+    
+    // invert because it's a pull-up
+    int btn2_state = 1 - READ_GPIO(BTN2_GPIO_Port, BTN2_Pin);
+
+    send |= btn1.update(btn1_state);
+    send |= btn2.update(btn2_state);
+
+    int ch_a = READ_GPIO(ENC0_A_GPIO_Port, ENC0_A_Pin);
+    int ch_b = READ_GPIO(ENC0_B_GPIO_Port, ENC0_B_Pin);
+
+    int encoder_0_direction = encoder_0.update(ch_b | (ch_a << 1));
+
+    send |= encoder_0_direction != 0;
+
+    if(send) {
+
+        uint32 data = 0;
+        data |= encoder_0_direction & 3;
+        data |= btn2.held << 2;
+        data |= btn1.held << 3;
+        sent_payload = send_message(data);
+    }
     ticks += 1;
+
+#if !defined(DISABLE_STANDBY)
+    if((ticks - idle_ticks) > idle_standby_ticks) {
+        enter_standby_mode();
+    }
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////
