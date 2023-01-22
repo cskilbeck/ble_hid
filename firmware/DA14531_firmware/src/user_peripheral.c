@@ -15,6 +15,8 @@
 timer_hnd app_param_update_request_timer_used __SECTION_ZERO("retention_mem_area0");
 uint8_t app_connection_idx __SECTION_ZERO("retention_mem_area0");
 
+bool button_notifications_enabled = false;
+
 void print_uint32(uint32_t x);
 
 //////////////////////////////////////////////////////////////////////
@@ -110,6 +112,10 @@ void user_app_adv_undirect_complete(uint8_t status)
 
 void user_app_disconnect(struct gapc_disconnect_ind const *param)
 {
+    //if(suota_state.reboot_requested) {
+    //  platform_reset(RESET_AFTER_SUOTA_UPDATE);
+    //}
+
     arch_printf("app_disconnect\n");
     // Cancel the parameter update request timer
     if(app_param_update_request_timer_used != EASY_TIMER_INVALID_TIMER) {
@@ -177,8 +183,12 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid, void const *param, ke_task_id
             break;
 
         case SVC1_IDX_CONTROL_POINT_NTF_CFG:
-            arch_printf("NTF_CFG\n");
+        {
+            arch_printf("Configure notification:");
+            button_notifications_enabled = msg_param->value[0] != 0;
+            print_uint32(msg_param->value[0]);
             break;
+        }
 
         default:
             arch_printf("Huh:");

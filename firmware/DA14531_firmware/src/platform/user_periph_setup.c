@@ -1,12 +1,15 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "user_periph_setup.h"
+#include "user_peripheral.h"
 #include "datasheet.h"
 #include "system_library.h"
 #include "rwip_config.h"
 #include "gpio.h"
 #include "uart.h"
 #include "syscntl.h"
+#include "user_custs1_def.h"
+#include "custs1_task.h"
 #include "arch_console.h"
 
 void send_payload(int32 payload);
@@ -24,7 +27,7 @@ int uart_rx_byte_count;
 uint8_t uart_rx_data[4];
 uint8_t uart_tx_data[4];
 
-// Configuration struct for UART1
+// Configuration struct for UART1 (used to talk to the STM32 Button handler MCU)
 static const uart_cfg_t uart1_cfg = { .baud_rate = UART1_BAUDRATE,
                                       .data_bits = UART1_DATABITS,
                                       .parity = UART1_PARITY,
@@ -42,17 +45,19 @@ static const uart_cfg_t uart1_cfg = { .baud_rate = UART1_BAUDRATE,
 
 #if defined(CFG_PRINTF_UART2)
 
-static const uart_cfg_t uart_cfg = {
-    .baud_rate = UART2_BAUDRATE,
-    .data_bits = UART2_DATABITS,
-    .parity = UART2_PARITY,
-    .stop_bits = UART2_STOPBITS,
-    .auto_flow_control = UART2_AFCE,
-    .use_fifo = UART2_FIFO,
-    .tx_fifo_tr_lvl = UART2_TX_FIFO_LEVEL,
-    .rx_fifo_tr_lvl = UART2_RX_FIFO_LEVEL,
-    .intr_priority = 2,
-};
+// Configuration struct for UART2 (used to send debug messages to Putty)
+static const uart_cfg_t uart_cfg = { .baud_rate = UART2_BAUDRATE,
+                                     .data_bits = UART2_DATABITS,
+                                     .parity = UART2_PARITY,
+                                     .stop_bits = UART2_STOPBITS,
+                                     .auto_flow_control = UART2_AFCE,
+                                     .use_fifo = UART2_FIFO,
+                                     .tx_fifo_tr_lvl = UART2_TX_FIFO_LEVEL,
+                                     .rx_fifo_tr_lvl = UART2_RX_FIFO_LEVEL,
+                                     .intr_priority = 2,
+                                     .uart_rx_cb = NULL,
+                                     .uart_err_cb = NULL,
+                                     .uart_tx_cb = NULL };
 #endif
 
 //////////////////////////////////////////////////////////////////////
@@ -169,6 +174,16 @@ static void uart1_rx_callback(uint16_t data_cnt)
                 arch_printf("Got message ");
                 print_uint32(payload);
                 send_payload(payload);
+                if(button_notifications_enabled) {
+                    struct custs1_val_ntf_ind_req *req =
+                        KE_MSG_ALLOC_DYN(CUSTS1_VAL_NTF_REQ, prf_get_task_from_id(TASK_ID_CUSTS1), TASK_APP,
+                                         custs1_val_ntf_ind_req, DEF_SVC1_CTRL_POINT_CHAR_LEN);
+                    req->handle = SVC1_IDX_CONTROL_POINT_VAL;
+                    req->length = 4;
+                    req->notification = true;
+                    memcpy(req->value, &payload, 4);
+                    ke_msg_send(req);
+                }
             } else {
                 arch_printf("Err, expected ");
                 print_uint32(uart_rx_data[0]);

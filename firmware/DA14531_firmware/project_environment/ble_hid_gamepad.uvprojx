@@ -1236,6 +1236,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
             </File>
+            <File>
+              <FileName>user_peripheral.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\user_peripheral.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -2470,6 +2475,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
             </File>
+            <File>
+              <FileName>user_peripheral.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\user_peripheral.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -3652,6 +3662,11 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_peripheral.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\user_peripheral.h</FilePath>
             </File>
           </Files>
         </Group>

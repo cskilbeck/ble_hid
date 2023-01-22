@@ -47,7 +47,8 @@ void button::update(int state)
     history = (history << 1) | state;
     pressed |= history == bit_on_mask;
     released |= history == bit_off_mask;
-    held = state != 0;
+    held |= pressed;
+    held &= ~released;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -84,10 +85,10 @@ void set_led_rgb24(byte r, byte g, byte b)
 //////////////////////////////////////////////////////////////////////
 // send a 21 bit message (sends 32 bits with checksum and id bits)
 
-void send_message(uint32 message)
+int32 send_message(uint32 message)
 {
     if(uart_tx_busy) {
-        return;
+        return -1;
     }
     uart_tx_busy = true;
     int d0 = message & 0x7f;
@@ -100,6 +101,7 @@ void send_message(uint32 message)
     LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_2, 4);
     LL_DMA_SetMemoryAddress(DMA1, LL_DMA_CHANNEL_2, (uint32)uart_tx_buffer);
     LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_2);
+    return message & ((1 << 21) - 1);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -170,11 +172,18 @@ extern "C" void user_main(void)
     uint32 i = 0;
     while(1) {
         set_led_rgb24(ticks >> 6, ticks >> 7, ticks >> 8);
+        bool send_it = false;
         if(btn1.pressed) {
+            btn1.pressed = 0;
+            send_it = true;
+        }
+        if(btn1.released) {
+            btn1.released = 0;
+            send_it = true;
+        }
+        if(send_it) {
             idle_ticks = ticks;
-            btn1.pressed = false;
-            send_message(ticks);
-            sent_payload = ticks & ((1 << 21) - 1);
+            sent_payload = send_message(((ticks & 0xff) << 8) | btn1.held);
         }
 #if !defined(DISABLE_STANDBY)
         if((ticks - idle_ticks) > idle_standby_ticks) {
