@@ -33,20 +33,20 @@ typedef uint8_t byte;
 #define GPIO_TOGGLE(port, pin) (GPIO_DATA_REG(port) ^= (1 << pin))
 
 //////////////////////////////////////////////////////////////////////
-// GPIO PINS
+// GPIO TYPE    FUNCTION
 //
-// 0   
-// 1   
-// 2   UART1_TX
-// 3   
-// 4   
-// 5   UART2_TX
-// 6   
-// 7   
-// 8   
-// 9   DEBUG_LED
-// 10  
-// 11  UART1_RX
+// 0    B       RESET
+// 1    X       NA
+// 2    B       ? VBAT
+// 3    X       NA
+// 4    X       NA
+// 5    B       ? WAKEUP / UART2_TX
+// 6    A       UART1_TX
+// 7    A       ? BATT_CHG
+// 8    A       UART1_RX
+// 9    A       DEBUG_LED / SWDIO
+// 10   A       SWCLK
+// 11   A       ? WAKEUP / DEBUG_BUTTON
 
 //////////////////////////////////////////////////////////////////////
 
@@ -55,9 +55,8 @@ typedef uint8_t byte;
 #define UART1_RX_PORT GPIO_PORT_0
 
 #define UART2_TX_PIN GPIO_PIN_5
-
-#define UART1_TX_PIN GPIO_PIN_1
-#define UART1_RX_PIN GPIO_PIN_11
+#define UART1_TX_PIN GPIO_PIN_6
+#define UART1_RX_PIN GPIO_PIN_8
 
 #define DEBUGGING
 

@@ -126,7 +126,7 @@
 /*    -undefined    External processor mode. Host application runs on an external processor. Communicates with */
 /*                  BLE application through GTL protocol over a signalling iface (UART, SPI etc)               */
 /***************************************************************************************************************/
-#define CFG_APP
+// !!! #define CFG_APP !!! THIS IS DEFINED IN THE PROJECT SETTINGS SO SYNTAX HIGHLIGHTING WORKS
 
 /****************************************************************************************************************/
 /* Enables the BLE security functionality in TASK_APP. If not defined BLE security related code is compiled out.*/

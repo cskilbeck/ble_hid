@@ -609,11 +609,6 @@
               <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\third_party\hash\hash.c</FilePath>
             </File>
             <File>
-              <FileName>da14585_586.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14585_586.lib</FilePath>
-            </File>
-            <File>
               <FileName>da14531.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531.lib</FilePath>
@@ -636,6 +631,16 @@
                 </CommonProperty>
                 <FileArmAds/>
               </FileOption>
+            </File>
+            <File>
+              <FileName>da14585_586.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14585_586.lib</FilePath>
+            </File>
+            <File>
+              <FileName>da14531_01_with_heap_logging.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531_01_with_heap_logging.lib</FilePath>
             </File>
             <File>
               <FileName>otp_cs.c</FileName>
@@ -1187,11 +1192,6 @@
               <FilePath>..\src\config\user_modules_config.h</FilePath>
             </File>
             <File>
-              <FileName>user_periph_setup.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\config\user_periph_setup.h</FilePath>
-            </File>
-            <File>
               <FileName>user_profiles_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\config\user_profiles_config.h</FilePath>
@@ -1216,11 +1216,6 @@
               <FileType>5</FileType>
               <FilePath>..\src\custom_profile\user_custs_config.h</FilePath>
             </File>
-            <File>
-              <FileName>user_custs1_def.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\custom_profile\user_custs1_def.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1235,6 +1230,21 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>headers</GroupName>
+          <Files>
+            <File>
+              <FileName>user_custs1_def.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\custom_profile\user_custs1_def.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_periph_setup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\config\user_periph_setup.h</FilePath>
             </File>
             <File>
               <FileName>user_peripheral.h</FileName>
@@ -1848,11 +1858,6 @@
               <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\third_party\hash\hash.c</FilePath>
             </File>
             <File>
-              <FileName>da14585_586.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14585_586.lib</FilePath>
-            </File>
-            <File>
               <FileName>da14531.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531.lib</FilePath>
@@ -1875,6 +1880,16 @@
                 </CommonProperty>
                 <FileArmAds/>
               </FileOption>
+            </File>
+            <File>
+              <FileName>da14585_586.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14585_586.lib</FilePath>
+            </File>
+            <File>
+              <FileName>da14531_01_with_heap_logging.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531_01_with_heap_logging.lib</FilePath>
             </File>
             <File>
               <FileName>otp_cs.c</FileName>
@@ -2426,11 +2441,6 @@
               <FilePath>..\src\config\user_modules_config.h</FilePath>
             </File>
             <File>
-              <FileName>user_periph_setup.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\config\user_periph_setup.h</FilePath>
-            </File>
-            <File>
               <FileName>user_profiles_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\config\user_profiles_config.h</FilePath>
@@ -2455,11 +2465,6 @@
               <FileType>5</FileType>
               <FilePath>..\src\custom_profile\user_custs_config.h</FilePath>
             </File>
-            <File>
-              <FileName>user_custs1_def.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\custom_profile\user_custs1_def.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2474,6 +2479,21 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>headers</GroupName>
+          <Files>
+            <File>
+              <FileName>user_custs1_def.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\custom_profile\user_custs1_def.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_periph_setup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\config\user_periph_setup.h</FilePath>
             </File>
             <File>
               <FileName>user_peripheral.h</FileName>
@@ -2815,7 +2835,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>--thumb -c --preinclude da1458x_config_basic.h --preinclude da1458x_config_advanced.h --preinclude user_config.h --bss_threshold=0 --feedback=".\unused_531.txt"</MiscControls>
-              <Define>__DA14531__, CFG_BLE=1,CFG_PERIPHERAL=1,BLE_PERIPHERAL=1,CFG_PRF_CUST1=1</Define>
+              <Define>__DA14531__, CFG_BLE=1,CFG_PERIPHERAL=1,BLE_PERIPHERAL=1,CFG_PRF_CUST1=1,CFG_APP</Define>
               <Undefine></Undefine>
               <IncludePath>..\src;..\src\config;..\src\custom_profile;..\src\platform;..\..\DA14531_SDK_6.0.18.1182.1\sdk;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_ancc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_bass;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_bcss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_bmss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_bond_db;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_common;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_ctsc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_ctss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_custs;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_default_hnd;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_diss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_easy;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_entry;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_findme;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_gattc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_proxr;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_sec;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_suotar;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_udss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\app_modules\src\app_wsss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\controller;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\controller\em;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\controller\llc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\controller\lld;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\controller\llm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\ea;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\ea\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\em;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\em\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\hci;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\hci\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\hci\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\att;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\att\attc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\att\attm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\att\atts;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\gap;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\gap\gapc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\gap\gapm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\gatt;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\gatt\gattc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\gatt\gattm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\l2c;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\l2c\l2cc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\l2c\l2cm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\smp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\smp\smpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\host\smp\smpm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anc\ancc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anc\ancc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anc\ancc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp\anpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp\anpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp\anpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp\anps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp\anps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\anp\anps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas\basc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas\basc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas\basc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas\bass;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas\bass\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bas\bass\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs\bcsc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs\bcsc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs\bcsc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs\bcss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs\bcss\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bcs\bcss\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp\blpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp\blpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp\blpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp\blps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp\blps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\blp\blps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms\bmsc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms\bmsc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms\bmsc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms\bmss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms\bmss\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\bms\bmss\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp\cppc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp\cppc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp\cppc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp\cpps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp\cpps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cpp\cpps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp\cscpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp\cscpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp\cscpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp\cscps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp\cscps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cscp\cscps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts\ctsc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts\ctsc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts\ctsc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts\ctss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts\ctss\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\cts\ctss\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\custom;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\custom\custs;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\custom\custs\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\custom\custs\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis\disc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis\disc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis\disc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis\diss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis\diss\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\dis\diss\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find\findl;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find\findl\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find\findl\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find\findt;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find\findt\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\find\findt\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\gatt;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\gatt\gatt_client;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\gatt\gatt_client\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\gatt\gatt_client\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp\glpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp\glpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp\glpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp\glps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp\glps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\glp\glps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogpbh;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogpbh\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogpbh\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogpd;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogpd\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogpd\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogprh;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogprh\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hogp\hogprh\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp\hrpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp\hrpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp\hrpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp\hrps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp\hrps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\hrp\hrps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp\htpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp\htpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp\htpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp\htpt;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp\htpt\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\htp\htpt\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan\lanc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan\lanc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan\lanc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan\lans;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan\lans\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\lan\lans\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp\paspc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp\paspc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp\paspc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp\pasps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp\pasps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\pasp\pasps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox\proxm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox\proxm\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox\proxm\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox\proxr;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox\proxr\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\prox\proxr\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp\rscpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp\rscpc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp\rscpc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp\rscps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp\rscps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\rscp\rscps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp\scppc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp\scppc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp\scppc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp\scpps;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp\scpps\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\scpp\scpps\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\suota;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\suota\suotar;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\suota\suotar\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\suota\suotar\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip\tipc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip\tipc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip\tipc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip\tips;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip\tips\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\tip\tips\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds\udsc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds\udsc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds\udsc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds\udss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds\udss\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\uds\udss\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss\wssc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss\wssc\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss\wssc\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss\wsss;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss\wsss\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\profiles\wss\wsss\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\rwble;..\..\DA14531_SDK_6.0.18.1182.1\sdk\ble_stack\rwble_hl;..\..\DA14531_SDK_6.0.18.1182.1\sdk\common_project_files;..\..\DA14531_SDK_6.0.18.1182.1\sdk\common_project_files\IAR;..\..\DA14531_SDK_6.0.18.1182.1\sdk\common_project_files\ldscripts;..\..\DA14531_SDK_6.0.18.1182.1\sdk\common_project_files\misc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\common_project_files\scatterfiles;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\boot;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\boot\ARM;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\boot\ARM_clang;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\boot\GCC;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\boot\IAR;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\compiler;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\compiler\ARM;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\compiler\ARM_clang;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\compiler\GCC;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\compiler\IAR;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\ll;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\arch\main;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\arch_console;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\common;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\common\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\crypto;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\dbg;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\dbg\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\gtl;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\gtl\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\gtl\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\h4tl;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\h4tl\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\ke;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\ke\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\ke\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\nvds;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\nvds\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\nvds\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\rf;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\rf\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\rf\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\rwip;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\rwip\api;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\core_modules\rwip\src;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\adc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\battery;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\ble;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\dma;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\gpio;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\hw_otpc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\i2c;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\i2c_eeprom;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\pdm;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\reg;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\rtc;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\spi;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\spi_flash;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\syscntl;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\systick;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\timer;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\trng;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\uart;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\wifi;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\driver\wkupct_quadec;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS\5.6.0;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS\5.6.0\Include;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS\5.9.0;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS\5.9.0\CMSIS;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS\5.9.0\CMSIS\Core;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\include\CMSIS\5.9.0\CMSIS\Core\Include;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\include;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\IAR;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\utilities;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\utilities\otp_cs;..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\utilities\otp_hdr;..\..\DA14531_SDK_6.0.18.1182.1\third_party;..\..\DA14531_SDK_6.0.18.1182.1\third_party\crc32;..\..\DA14531_SDK_6.0.18.1182.1\third_party\hash;..\..\DA14531_SDK_6.0.18.1182.1\third_party\irng;..\..\DA14531_SDK_6.0.18.1182.1\third_party\micro_ecc;..\..\DA14531_SDK_6.0.18.1182.1\third_party\rand</IncludePath>
             </VariousControls>
@@ -3036,6 +3056,30 @@
               <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\third_party\hash\hash.c</FilePath>
             </File>
             <File>
+              <FileName>da14531.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531.lib</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds/>
+              </FileOption>
+            </File>
+            <File>
               <FileName>da14585_586.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14585_586.lib</FilePath>
@@ -3060,9 +3104,28 @@
               </FileOption>
             </File>
             <File>
-              <FileName>da14531.lib</FileName>
+              <FileName>da14531_01_with_heap_logging.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531.lib</FilePath>
+              <FilePath>..\..\DA14531_SDK_6.0.18.1182.1\sdk\platform\system_library\output\Keil_5\da14531_01_with_heap_logging.lib</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>0</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+                <FileArmAds/>
+              </FileOption>
             </File>
             <File>
               <FileName>otp_cs.c</FileName>
@@ -3587,6 +3650,75 @@
         </Group>
         <Group>
           <GroupName>user_config</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>0</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>0</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>0</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <uGnu>2</uGnu>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <vShortEn>2</vShortEn>
+                <vShortWch>2</vShortWch>
+                <v6Lto>2</v6Lto>
+                <v6WtE>2</v6WtE>
+                <v6Rtti>2</v6Rtti>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <ClangAsOpt>0</ClangAsOpt>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
           <Files>
             <File>
               <FileName>da1458x_config_advanced.h</FileName>
@@ -3614,11 +3746,6 @@
               <FilePath>..\src\config\user_modules_config.h</FilePath>
             </File>
             <File>
-              <FileName>user_periph_setup.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\config\user_periph_setup.h</FilePath>
-            </File>
-            <File>
               <FileName>user_profiles_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\config\user_profiles_config.h</FilePath>
@@ -3643,11 +3770,6 @@
               <FileType>5</FileType>
               <FilePath>..\src\custom_profile\user_custs_config.h</FilePath>
             </File>
-            <File>
-              <FileName>user_custs1_def.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\custom_profile\user_custs1_def.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -3662,6 +3784,90 @@
               <FileName>user_peripheral.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\user_peripheral.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>headers</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>0</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>0</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>0</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <uGnu>2</uGnu>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <vShortEn>2</vShortEn>
+                <vShortWch>2</vShortWch>
+                <v6Lto>2</v6Lto>
+                <v6WtE>2</v6WtE>
+                <v6Rtti>2</v6Rtti>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <ClangAsOpt>0</ClangAsOpt>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
+          <Files>
+            <File>
+              <FileName>user_custs1_def.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\custom_profile\user_custs1_def.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_periph_setup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\src\config\user_periph_setup.h</FilePath>
             </File>
             <File>
               <FileName>user_peripheral.h</FileName>
@@ -3683,7 +3889,7 @@
   <LayerInfo>
     <Layers>
       <Layer>
-        <LayName>&lt;Project Info&gt;</LayName>
+        <LayName>ble_hid_gamepad</LayName>
         <LayTarg>0</LayTarg>
         <LayPrjMark>1</LayPrjMark>
       </Layer>
