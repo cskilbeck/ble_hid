@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Mon Jan 23 18:18:27 2023
+;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Tue Jan 24 23:15:11 2023
 ;VERSION 0.2
 ;FILE adc_531.o
 adc_correct_sample <= USED 0
@@ -43,9 +43,12 @@ default_app_bdb_remove_entry <= USED 0
 default_app_bdb_search_entry <= USED 0
 ;FILE app_customs.o
 app_custs1_init <= USED 0
+app_custs2_init <= USED 0
 ;FILE app_customs_common.o
 app_custs1_val_wr_validate <= USED 0
+app_custs2_val_wr_validate <= USED 0
 ;FILE app_customs_task.o
+app_custs2_process_handler <= USED 0
 ;FILE app_default_handlers.o
 default_advertise_operation <= USED 0
 default_app_generate_unique_static_random_addr <= USED 0
@@ -79,7 +82,6 @@ app_easy_security_ltk_exch_get_active <= USED 0
 app_easy_security_pairing_rsp_get_active <= USED 0
 app_easy_security_ral_op <= USED 0
 app_easy_security_ral_sync_with_bdb <= USED 0
-app_easy_security_request <= USED 0
 app_easy_security_request_get_active <= USED 0
 app_easy_security_resolve_bdaddr <= USED 0
 app_easy_security_set_encrypt_req_invalid <= USED 0
@@ -91,6 +93,10 @@ app_easy_timer_cancel_all <= USED 0
 app_easy_timer_modify <= USED 0
 ;FILE app_easy_whitelist.o
 app_easy_manage_wlist <= USED 0
+;FILE app_hogpd.o
+app_hogpd_get_protocol_mode <= USED 0
+app_hogpd_report_handle <= USED 0
+;FILE app_hogpd_task.o
 ;FILE app_msg_utils.o
 app_msg_send_wakeup_ble <= USED 0
 ;FILE app_security.o
@@ -121,6 +127,9 @@ lld_sleep_us_2_lpcycles_rcx_func <= USED 0
 battery_get_lvl <= USED 0
 battery_get_voltage <= USED 0
 ;FILE ble_arp.o
+;FILE custom_common.o
+;FILE custs2.o
+;FILE custs2_task.o
 ;FILE gpio.o
 GPIO_ConfigurePinPower <= USED 0
 GPIO_DisablePorPin <= USED 0
@@ -141,6 +150,7 @@ GPIO_is_valid <= USED 0
 ;FILE hardfault_handler.o
 ;FILE hash.o
 hash <= USED 0
+;FILE hogpd.o
 ;FILE hw_otpc_531.o
 hw_otpc_prog <= USED 0
 hw_otpc_prog_and_verify <= USED 0

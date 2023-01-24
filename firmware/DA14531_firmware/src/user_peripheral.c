@@ -2,6 +2,9 @@
 
 #include "rwip_config.h"    // SW configuration
 #include "gap.h"
+#include "app_entry_point.h"
+#include "app_hogpd.h"
+#include "app_hogpd_task.h"
 #include "app_easy_timer.h"
 #include "user_peripheral.h"
 #include "user_custs1_def.h"
@@ -9,6 +12,7 @@
 #include "co_bt.h"
 #include "prf.h"
 #include "arch_console.h"
+#include "user_periph_setup.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -16,8 +20,6 @@ timer_hnd app_param_update_request_timer_used __SECTION_ZERO("retention_mem_area
 uint8_t app_connection_idx __SECTION_ZERO("retention_mem_area0");
 
 bool button_notifications_enabled = false;
-
-void print_uint32(uint32_t x);
 
 //////////////////////////////////////////////////////////////////////
 
@@ -191,12 +193,15 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid, void const *param, ke_task_id
         }
 
         default:
-            arch_printf("Huh:");
+            arch_printf("Huh (handle):");
             print_uint32(msg_param->handle);
             break;
         }
     } break;
 
+    case GAPM_CMP_EVT:
+        arch_printf("command complete\n");
+        break;
 
     case GAPC_PARAM_UPDATED_IND: {
         // Cast the "param" pointer to the appropriate message structure
@@ -212,8 +217,7 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid, void const *param, ke_task_id
     } break;
 
     default:
-        arch_printf("Huh:");
-        print_uint32(msgid);
+        app_hogpd_process_handler(msgid, param, dest_id, src_id);
         break;
     }
 }

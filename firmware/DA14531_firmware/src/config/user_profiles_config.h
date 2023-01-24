@@ -7,6 +7,7 @@
 //#define CFG_PRF_HOGPD
 #define CFG_PRF_DISS
 //!!!#define CFG_PRF_CUST1  // THIS IS ACTUALLY DEFINED!!!
+//!!!#define CFG_PRF_CUST2  // THIS IS ACTUALLY DEFINED!!!
 
 //////////////////////////////////////////////////////////////////////
 // DISS application profile configuration

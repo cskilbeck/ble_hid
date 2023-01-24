@@ -1,7 +1,9 @@
 //////////////////////////////////////////////////////////////////////
 
+#include "app_hogpd.h"
 #include "user_periph_setup.h"
 #include "user_peripheral.h"
+#include "user_hogpd_config.h"
 #include "datasheet.h"
 #include "system_library.h"
 #include "rwip_config.h"
@@ -184,7 +186,15 @@ static void uart1_rx_callback(uint16_t data_cnt)
                     memcpy(req->value, &payload, 4);
                     ke_msg_send(req);
                 }
-            } else {
+                // send a HID mouse report based on what it was
+                //int8 rotation = (int8)(payload << 6) >> 6;
+                byte data[8];
+                memset(data, 0, 8);
+                data[2] = 4;
+                app_hogpd_send_report(HID_KEYBOARD_REPORT_IDX, data, 8, HOGPD_REPORT);
+                data[2] = 0;
+                app_hogpd_send_report(HID_KEYBOARD_REPORT_IDX, data, 8, HOGPD_REPORT);
+         } else {
                 arch_printf("Err, expected ");
                 print_uint32(uart_rx_data[0]);
             }

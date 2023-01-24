@@ -9,6 +9,7 @@
 #include "app_default_handlers.h"
 #include "app_entry_point.h"
 #include "app_prf_types.h"
+#include "app_hogpd.h"
 #if (BLE_APP_SEC)
 #include "app_bond_db.h"
 #endif // (BLE_APP_SEC)
@@ -120,5 +121,6 @@ static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
 
 static const struct prf_func_callbacks user_prf_funcs[] =
 {
+    {TASK_ID_HOGPD,			app_hogpd_create_db, app_hogpd_enable},
     {TASK_ID_INVALID,    NULL, NULL}   // DO NOT MOVE. Must always be last
 };

@@ -55,6 +55,7 @@ const struct attm_desc_128 custs1_att_db[CUSTS1_IDX_NB] = {
 
     // Control Point Characteristic Value
     [SVC1_IDX_CONTROL_POINT_VAL] = {
+        
         SVC1_CTRL_POINT_UUID_128,
         ATT_UUID_128_LEN,
         PERM(WR, ENABLE) | PERM(WRITE_REQ, ENABLE) | PERM(WRITE_COMMAND, ENABLE) | PERM(NTF, ENABLE),
@@ -65,6 +66,7 @@ const struct attm_desc_128 custs1_att_db[CUSTS1_IDX_NB] = {
 
     // Control Point Client Characteristic Configuration Descriptor
     [SVC1_IDX_CONTROL_POINT_NTF_CFG] = {
+        
         (uint8_t *)&att_desc_cfg,
         ATT_UUID_16_LEN,
         PERM(RD, ENABLE) | PERM(WR, ENABLE) | PERM(WRITE_REQ, ENABLE) |PERM(WRITE_COMMAND, ENABLE),
@@ -75,6 +77,7 @@ const struct attm_desc_128 custs1_att_db[CUSTS1_IDX_NB] = {
 
     // Control Point Characteristic User Description
     [SVC1_IDX_CONTROL_POINT_USER_DESC] = {
+        
         (uint8_t *)&att_desc_user_desc,
         ATT_UUID_16_LEN,
         PERM(RD, ENABLE),

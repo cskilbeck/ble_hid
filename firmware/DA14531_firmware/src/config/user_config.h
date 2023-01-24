@@ -159,7 +159,7 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
 /// Device name
-#define USER_DEVICE_NAME        "DLG-GAMEPAD"
+#define USER_DEVICE_NAME        "CHS-DEVICE"
 
 /// Device name length
 #define USER_DEVICE_NAME_LEN    (sizeof(USER_DEVICE_NAME)-1)
@@ -296,7 +296,7 @@ static const struct default_handlers_configuration  user_default_hnd_conf = {
     // Possible values:
     //  - DEF_SEC_REQ_NEVER
     //  - DEF_SEC_REQ_ON_CONNECT
-    .security_request_scenario = DEF_SEC_REQ_NEVER
+    .security_request_scenario = DEF_SEC_REQ_ON_CONNECT
 };
 
 /*
