@@ -1257,11 +1257,6 @@
           <GroupName>headers</GroupName>
           <Files>
             <File>
-              <FileName>app_hid_report_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\app_hid_report_config.h</FilePath>
-            </File>
-            <File>
               <FileName>app_hogpd.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\app_hogpd.h</FilePath>
@@ -1275,11 +1270,6 @@
               <FileName>app_hogpd_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\app_hogpd_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_hogpd_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\user_hogpd_config.h</FilePath>
             </File>
             <File>
               <FileName>user_custs_config.h</FileName>
@@ -2561,11 +2551,6 @@
           <GroupName>headers</GroupName>
           <Files>
             <File>
-              <FileName>app_hid_report_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\app_hid_report_config.h</FilePath>
-            </File>
-            <File>
               <FileName>app_hogpd.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\app_hogpd.h</FilePath>
@@ -2579,11 +2564,6 @@
               <FileName>app_hogpd_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\app_hogpd_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_hogpd_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\user_hogpd_config.h</FilePath>
             </File>
             <File>
               <FileName>user_custs_config.h</FileName>
@@ -4009,11 +3989,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>app_hid_report_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\app_hid_report_config.h</FilePath>
-            </File>
-            <File>
               <FileName>app_hogpd.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\app_hogpd.h</FilePath>
@@ -4027,11 +4002,6 @@
               <FileName>app_hogpd_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src\app_hogpd_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_hogpd_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\user_hogpd_config.h</FilePath>
             </File>
             <File>
               <FileName>user_custs_config.h</FileName>

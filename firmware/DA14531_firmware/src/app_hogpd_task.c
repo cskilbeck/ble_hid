@@ -1,10 +1,10 @@
 
 #include "rwip_config.h"
 #include "app_hogpd_task.h"
-#include "user_hogpd_config.h"
+#include "app_hogpd.h"
 #include "app_entry_point.h"
 #include "arch_console.h"
-#include "user_periph_setup.h"
+#include "user_peripheral.h"
 
 extern uint16_t report_ntf;
 
@@ -12,7 +12,6 @@ static void app_hogpd_report_upd_rsp_handler(void const *param)
 {
     struct hogpd_report_upd_rsp *par = (struct hogpd_report_upd_rsp *)param;
 
-    print_uint32("report_upd_rsp:", par->status);
     // Clear pending ack's for param->report_nb == 0 (normal key report) and == 2 (ext. key report)
     switch(par->status) {
     case PRF_ERR_UNEXPECTED_LEN:
@@ -25,7 +24,10 @@ static void app_hogpd_report_upd_rsp_handler(void const *param)
         break;
     case PRF_ERR_FEATURE_NOT_SUPPORTED:
         break;
+    case ATT_ERR_NO_ERROR:
+        return;
     }
+    print_uint32("report_upd_rsp_err:", par->status);
 }
 
 __INLINE void app_hogpd_call_store_attibute_callback(uint16_t uuid, int attr_num, int value)

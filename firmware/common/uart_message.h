@@ -1,5 +1,11 @@
 //////////////////////////////////////////////////////////////////////
-// Format of a message from STM32 -> DA14531 is:
+
+#pragma once
+
+#include "int_types.h"
+
+//////////////////////////////////////////////////////////////////////
+// Format of a uart message from STM32 -> DA14531 is:
 // BITS
 //  0       BTN1 Pressed
 //  1       BTN1 Released
@@ -27,6 +33,11 @@
 #define UM_BTN3_RELEASED_MASK 1
 #define UM_ROT1_ROTATED_MASK 3
 #define UM_ROT2_ROTATED_MASK 3
+
+#define UM_EXTRACT(data, name) ((data >> UM_ ## name ## _POS) & UM_ ## name ## _MASK)
+
+#define ROT_DIR_CLOCKWISE 1
+#define ROT_DIR_ANTICLOCKWISE 3
 
 //////////////////////////////////////////////////////////////////////
 // c = Checksum

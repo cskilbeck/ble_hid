@@ -11,6 +11,8 @@
 #include "app.h"          // application definitions
 #include "co_error.h"     // error code definitions
 #include "arch_wdg.h"
+#include "gpio.h"
+#include "uart.h"
 
 #include "app_callback.h"
 #include "app_default_handlers.h"
@@ -42,6 +44,16 @@ void user_app_init(void);
 void user_app_adv_start(void);
 
 void ble_control_point_send_payload(int32_t payload);
+
+void print_uint32(char const *msg, uint32_t x);
+
+//////////////////////////////////////////////////////////////////////
+
+void uart1_err_callback(uart_t *uart, uint8_t uart_err_status);
+void uart1_tx_callback(uint16_t data_cnt);
+void uart1_rx_callback(uint16_t data_cnt);
+
+extern uint8_t uart1_buffer;
 
 //////////////////////////////////////////////////////////////////////
 // BLE connected

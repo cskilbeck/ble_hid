@@ -92,6 +92,5 @@ void GPIO_reservations(void);
 
 void set_pad_functions(void);
 void periph_init(void);
-void print_uint32(char const *msg, uint32_t x);
 
 

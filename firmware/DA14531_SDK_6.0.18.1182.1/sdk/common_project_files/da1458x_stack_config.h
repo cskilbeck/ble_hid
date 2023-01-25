@@ -31,7 +31,7 @@
     #define CFG_CON             8
 #endif
 
-#define CFG_SECURITY_ON     1
+#define CFG_SECURITY_ON     0
 #define CFG_ATTC
 #define CFG_ATTS
 #define CFG_PRF

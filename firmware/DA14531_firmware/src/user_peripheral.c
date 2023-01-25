@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 
-#include "rwip_config.h"    // SW configuration
+#include "rwip_config.h"
 #include "gap.h"
 #include "app_entry_point.h"
 #include "app_hogpd.h"
@@ -13,6 +13,7 @@
 #include "prf.h"
 #include "arch_console.h"
 #include "user_periph_setup.h"
+#include "../../../common/uart_message.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,6 +21,142 @@ timer_hnd app_param_update_request_timer_used __SECTION_ZERO("retention_mem_area
 uint8_t app_connection_idx __SECTION_ZERO("retention_mem_area0");
 
 bool button_notifications_enabled = false;
+
+uint8_t uart1_buffer;
+uint32_t uart_rx_data;
+uint8_t uart_tx_data[4];
+
+byte consumer_key_state;
+
+//////////////////////////////////////////////////////////////////////
+
+void print_uint32(char const *msg, uint32_t x)
+{
+    static char txt[10];
+
+    for(int i = 0; i < 8; ++i) {
+        uint32_t b = (x >> 28) + '0';
+        if(b > '9') {
+            b += 'A' - 10 - '0';
+        }
+        txt[i] = b;
+        x <<= 4;
+    }
+    txt[8] = '\n';
+    txt[9] = 0;
+    arch_printf(msg);
+    arch_printf(txt);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void uart1_rx_callback(uint16_t data_cnt)
+{
+    byte got_byte = uart1_buffer;
+    uart_receive(UART1, &uart1_buffer, 1, UART_OP_INTR);
+
+    // if top bit is set, it's a checksum byte, grab it and reset stuff
+    if((got_byte & 0x80) != 0) {
+
+        uart_rx_data = got_byte;
+        print_uint32("Got checksum: ", got_byte & 0xff);
+
+    } else {
+
+        // top bit is clear, it's a data byte, add it to the data and if got 3 check it
+        uart_rx_data = (uart_rx_data << 8) | got_byte;
+
+        if((uart_rx_data & 0x80000000) != 0) {
+
+            uint32_t payload = um_decode_message(uart_rx_data);
+
+            if(payload != 0xffffffff) {
+
+                um_encode_message(payload, uart_tx_data);
+                uart_send(UART1, uart_tx_data, 4, UART_OP_INTR);
+
+                GPIO_TOGGLE(GPIO_LED_PORT, GPIO_LED_PIN);
+
+                print_uint32("Got message ", payload);
+
+                if(button_notifications_enabled) {
+                    ble_control_point_send_payload(payload);
+                }
+
+                bool hid_send = false;
+
+                if(UM_EXTRACT(payload, BTN1_PRESSED) != 0) {
+                    consumer_key_state |= HID_CC_AL_KEYBOARD;
+                    hid_send = true;
+                }
+
+                if(UM_EXTRACT(payload, BTN1_RELEASED) != 0) {
+                    consumer_key_state &= ~HID_CC_AL_KEYBOARD;
+                    hid_send = true;
+                }
+
+                if(UM_EXTRACT(payload, BTN2_PRESSED) != 0) {
+                    consumer_key_state |= HID_CC_MUTE;
+                    hid_send = true;
+                }
+
+                if(UM_EXTRACT(payload, BTN2_RELEASED) != 0) {
+                    consumer_key_state &= ~HID_CC_MUTE;
+                    hid_send = true;
+                }
+
+                int rot = UM_EXTRACT(payload, ROT1_ROTATED);
+
+                if(rot == ROT_DIR_CLOCKWISE) {
+                    consumer_key_state |= HID_CC_VOLUME_UP;
+                    hid_send = true;
+                } else if(rot == ROT_DIR_ANTICLOCKWISE) {
+                    consumer_key_state |= HID_CC_VOLUME_DOWN;
+                    hid_send = true;
+                }
+
+                if(hid_send) {
+                    app_hogpd_send_report(HID_CONSUMER_REPORT_IDX, &consumer_key_state, HID_CONSUMER_REPORT_SIZE,
+                                          HOGPD_REPORT);
+
+                    if((consumer_key_state & (HID_CC_VOLUME_UP | HID_CC_VOLUME_DOWN)) != 0) {
+
+                        consumer_key_state &= ~(HID_CC_VOLUME_UP | HID_CC_VOLUME_DOWN);
+
+                        app_hogpd_send_report(HID_CONSUMER_REPORT_IDX, &consumer_key_state, HID_CONSUMER_REPORT_SIZE,
+                                              HOGPD_REPORT);
+                    }
+                }
+
+#if WITH_KEYBOARD
+//                byte data[8];
+//                memset(data, 0, 8);
+//                if(((payload >> UM_BTN2_PRESSED_POS) & UM_BTN2_PRESSED_MASK) != 0) {
+//                    data[3] = 5;
+//                }
+//                if(((payload >> UM_BTN2_RELEASED_POS) & UM_BTN2_RELEASED_MASK) != 0) {
+//                    data[3] = 0;
+//                }
+#endif
+                print_uint32("Good payload: ", payload);
+            } else {
+                print_uint32("Err, got ", uart_rx_data >> 24);
+            }
+        }
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void uart1_tx_callback(uint16_t data_cnt)
+{
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void uart1_err_callback(uart_t *uart, uint8_t uart_err_status)
+{
+}
 
 //////////////////////////////////////////////////////////////////////
 
@@ -114,9 +251,9 @@ void user_app_adv_undirect_complete(uint8_t status)
 
 void user_app_disconnect(struct gapc_disconnect_ind const *param)
 {
-    //if(suota_state.reboot_requested) {
-    //  platform_reset(RESET_AFTER_SUOTA_UPDATE);
-    //}
+    // if(suota_state.reboot_requested) {
+    //   platform_reset(RESET_AFTER_SUOTA_UPDATE);
+    // }
 
     arch_printf("app_disconnect\n");
     // Cancel the parameter update request timer
@@ -184,8 +321,7 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid, void const *param, ke_task_id
             }
             break;
 
-        case SVC1_IDX_CONTROL_POINT_NTF_CFG:
-        {
+        case SVC1_IDX_CONTROL_POINT_NTF_CFG: {
             button_notifications_enabled = msg_param->value[0] != 0;
             print_uint32("Configure notification:", msg_param->value[0]);
             break;
