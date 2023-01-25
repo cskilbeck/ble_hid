@@ -1,4 +1,4 @@
-;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Tue Jan 24 23:15:11 2023
+;#<FEEDBACK># ARM Linker, 5060960: Last Updated: Wed Jan 25 17:06:48 2023
 ;VERSION 0.2
 ;FILE adc_531.o
 adc_correct_sample <= USED 0
@@ -309,8 +309,6 @@ uart_register_rx_cb <= USED 0
 uart_write_buffer <= USED 0
 uart_write_byte <= USED 0
 ;FILE user_periph_setup.o
-decode_message <= USED 0
-send_message <= USED 0
 set_pad_functions <= USED 0
 ;FILE user_peripheral.o
 user_custs1_server_rx_ind_handler <= USED 0

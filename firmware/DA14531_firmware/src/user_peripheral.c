@@ -23,7 +23,7 @@ bool button_notifications_enabled = false;
 
 //////////////////////////////////////////////////////////////////////
 
-void send_payload(int32_t payload)
+void ble_control_point_send_payload(int32_t payload)
 {
     struct custs1_val_ntf_ind_req *req =
         KE_MSG_ALLOC_DYN(CUSTS1_VAL_NTF_REQ, prf_get_task_from_id(TASK_ID_CUSTS1), TASK_APP, custs1_val_ntf_ind_req,
@@ -186,15 +186,13 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid, void const *param, ke_task_id
 
         case SVC1_IDX_CONTROL_POINT_NTF_CFG:
         {
-            arch_printf("Configure notification:");
             button_notifications_enabled = msg_param->value[0] != 0;
-            print_uint32(msg_param->value[0]);
+            print_uint32("Configure notification:", msg_param->value[0]);
             break;
         }
 
         default:
-            arch_printf("Huh (handle):");
-            print_uint32(msg_param->handle);
+            print_uint32("Huh (handle):", msg_param->handle);
             break;
         }
     } break;

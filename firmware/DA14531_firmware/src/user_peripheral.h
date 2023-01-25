@@ -41,6 +41,8 @@ void user_app_init(void);
 
 void user_app_adv_start(void);
 
+void ble_control_point_send_payload(int32_t payload);
+
 //////////////////////////////////////////////////////////////////////
 // BLE connected
 // connection_idx   : Connection Id index

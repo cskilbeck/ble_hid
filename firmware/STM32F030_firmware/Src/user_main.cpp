@@ -1,9 +1,19 @@
 //////////////////////////////////////////////////////////////////////
+//
+// add HOG profile and make it work (BLE volume knob)
+// BLE reconnect
+// sleep/standby/wakeup for both
+// get the ADC working
+// add BAT service and make it work (can see it in the BLE Mobile app)
+//
+//////////////////////////////////////////////////////////////////////
+
 // if no button has been pressed for a while, go to sleep
 // when button pressed, send message to BLE MCU
 // when valid message received from BLE MCU, toggle LED
 
 #include "main.h"
+#include "../../common/uart_message.h"
 
 #if defined(DEBUG)
 #define DISABLE_STANDBY
@@ -29,6 +39,7 @@ uint8 const led_gamma[256] = {
 //////////////////////////////////////////////////////////////////////
 
 volatile uint32 ticks;       // 10Khz tick
+uint32 idle_ticks;           // last activity timestamp
 button btn1;                 // button1 - action / wakeup
 button btn2;                 // button2 - encoder 0 click
 rotary_encoder encoder_0;    // 1st rotary encoder
@@ -96,8 +107,6 @@ bool button::update(int state)
     history = (history << 1) | state;
     pressed = history == bit_on_mask;
     released = history == bit_off_mask;
-    held |= pressed;
-    held &= !released;
     return pressed || released;
 }
 
@@ -141,40 +150,11 @@ int32 send_message(uint32 message)
         return -1;
     }
     uart_tx_busy = true;
-    int d0 = message & 0x7f;
-    int d1 = (message >> 7) & 0x7f;
-    int d2 = (message >> 14) & 0x7f;
-    uart_tx_buffer[0] = (d0 ^ 0x7f ^ d1 ^ d2 ^ 0x55) | 0x80;
-    uart_tx_buffer[1] = d2;
-    uart_tx_buffer[2] = d1;
-    uart_tx_buffer[3] = d0;
+    int32 sent = um_encode_message(message, uart_tx_buffer);
     LL_DMA_SetDataLength(DMA1, LL_DMA_CHANNEL_2, 4);
     LL_DMA_SetMemoryAddress(DMA1, LL_DMA_CHANNEL_2, (uint32)uart_tx_buffer);
     LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_2);
-    return message & ((1 << 21) - 1);
-}
-
-//////////////////////////////////////////////////////////////////////
-// c = Checksum
-// p = Payload
-// Input
-// 31.............................0
-// 1ccccccc0ppppppp0ppppppp0ppppppp
-// Output Success
-// 00000000000ppppppppppppppppppppp
-// Output Fail
-// 11111111111111111111111111111111
-
-int32 decode_message(uint32 data)
-{
-    byte d0 = data;
-    byte d1 = data >> 8;
-    byte d2 = data >> 16;
-    byte checksum = (data >> 24) & 0x7f;
-    if(checksum == (d0 ^ 0x7f ^ d1 ^ d2 ^ 0x55)) {
-        return (d2 << 14) | (d1 << 7) | d0;
-    }
-    return -1;
+    return sent;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -216,6 +196,8 @@ extern "C" void user_main(void)
         DEBUG_LED_GPIO_Port->BSRR = DEBUG_LED_Pin << (((ticks >> 9) & 1) << 4);
         __WFI();
     }
+    
+    // at this point, we could set the SWD pins as GPIOs...
 
     // main loop
     while(1) {
@@ -253,7 +235,7 @@ extern "C" void uart_irq_handler(void)
             if((uart_rx_word & 0x80000000) != 0) {
 
                 // check it
-                int32 payload = decode_message(uart_rx_word);
+                int32 payload = um_decode_message(uart_rx_word);
 
                 // checksum checked out?
                 if(payload == sent_payload) {
@@ -290,9 +272,20 @@ extern "C" void timer14_irq_handler(void)
     if(send) {
 
         uint32 data = 0;
-        data |= encoder_0_direction & 3;
-        data |= btn2.held << 2;
-        data |= btn1.held << 3;
+        
+        data |= (btn1.was_pressed() & UM_BTN1_PRESSED_MASK) << UM_BTN1_PRESSED_POS;
+        data |= (btn1.was_released() & UM_BTN1_RELEASED_MASK) << UM_BTN1_RELEASED_POS;
+
+        data |= (btn2.was_pressed() & UM_BTN2_PRESSED_MASK) << UM_BTN2_PRESSED_POS;
+        data |= (btn2.was_released() & UM_BTN2_RELEASED_MASK) << UM_BTN2_RELEASED_POS;
+
+        //data |= (btn3.pressed & UM_BTN3_PRESSED_MASK) << UM_BTN3_PRESSED_POS;
+        //data |= (btn3.released & UM_BTN3_PRESSED_MASK) << UM_BTN3_PRESSED_POS;
+
+        data |= (encoder_0_direction & UM_ROT1_ROTATED_MASK) << UM_ROT1_ROTATED_POS;
+
+        //data |= (encoder_1_direction & UM_ROT2_ROTATED_MASK) << UM_ROT2_ROTATED_POS;
+
         sent_payload = send_message(data);
     }
     ticks += 1;

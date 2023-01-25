@@ -4,6 +4,10 @@
 
 //////////////////////////////////////////////////////////////////////
 
+#include "../../common/int_types.h"
+
+//////////////////////////////////////////////////////////////////////
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -11,18 +15,6 @@ extern "C" {
 //////////////////////////////////////////////////////////////////////
 
 #define READ_GPIO(port, mask) (((port)->IDR & mask) != 0)
-
-//////////////////////////////////////////////////////////////////////
-
-typedef unsigned int uint32;
-typedef unsigned short uint16;
-typedef unsigned char uint8;
-
-typedef signed int int32;
-typedef signed short int16;
-typedef signed char int8;
-
-typedef uint8 byte;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -45,9 +37,18 @@ struct button
     static constexpr uint32 bit_on_mask = 1;
 
     uint32 history : bit_history_len;
-    uint32 held : 1;
     uint32 pressed : 1;
     uint32 released : 1;
+    
+    int was_pressed() const
+    {
+        return pressed != 0;
+    }
+
+    int was_released() const
+    {
+        return released != 0;
+    }
 
     // returns true if state changed (pressed or released)
     // param: state is button state 0 or 1 (1 = button down)

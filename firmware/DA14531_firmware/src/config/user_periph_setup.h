@@ -10,16 +10,7 @@
 #include "spi_flash.h"
 #include "i2c.h"
 #include "i2c_eeprom.h"
-
-//////////////////////////////////////////////////////////////////////
-
-typedef uint32_t uint32;
-typedef uint16_t uint16;
-typedef uint8_t uint8;
-typedef int32_t int32;
-typedef int16_t int16;
-typedef int8_t int8;
-typedef uint8_t byte;
+#include "../../../common/int_types.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -101,6 +92,6 @@ void GPIO_reservations(void);
 
 void set_pad_functions(void);
 void periph_init(void);
-void print_uint32(uint32_t x);
+void print_uint32(char const *msg, uint32_t x);
 
 

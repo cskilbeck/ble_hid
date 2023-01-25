@@ -13,8 +13,7 @@
 #include "user_custs1_def.h"
 #include "custs1_task.h"
 #include "arch_console.h"
-
-void send_payload(int32 payload);
+#include "../../../common/uart_message.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -25,8 +24,7 @@ static void uart1_rx_callback(uint16_t data_cnt);
 //////////////////////////////////////////////////////////////////////
 
 uint8_t uart1_buffer;
-int uart_rx_byte_count;
-uint8_t uart_rx_data[4];
+uint32_t uart_rx_data;
 uint8_t uart_tx_data[4];
 
 // Configuration struct for UART1 (used to talk to the STM32 Button handler MCU)
@@ -105,7 +103,7 @@ void set_pad_functions(void)
 
 //////////////////////////////////////////////////////////////////////
 
-void print_uint32(uint32_t x)
+void print_uint32(char const *msg, uint32_t x)
 {
     static char txt[10];
 
@@ -119,86 +117,73 @@ void print_uint32(uint32_t x)
     }
     txt[8] = '\n';
     txt[9] = 0;
+    arch_printf(msg);
     arch_printf(txt);
-}
-
-//////////////////////////////////////////////////////////////////////
-// send a 21 bit message (32 bits with checksum and id bits)
-
-void send_message(uint32 message)
-{
-    int d0 = message & 0x7f;
-    int d1 = (message >> 7) & 0x7f;
-    int d2 = (message >> 14) & 0x7f;
-    uart_tx_data[0] = (d0 ^ 0x7f ^ d1 ^ d2 ^ 0x55) | 0x80;
-    uart_tx_data[1] = d2;
-    uart_tx_data[2] = d1;
-    uart_tx_data[3] = d0;
-    uart_send(UART1, uart_tx_data, 4, UART_OP_INTR);
-}
-
-//////////////////////////////////////////////////////////////////////
-
-uint32 decode_message(byte data[4])
-{
-    int d2 = data[1];
-    int d1 = data[2];
-    int d0 = data[3];
-    uint32_t checksum = d0 ^ 0x7f ^ d1 ^ d2 ^ 0x55;
-    if((data[0] & 0x7f) == checksum) {
-        return (d2 << 14) | (d1 << 7) | d0;
-    }
-    return 0xffffffff;
 }
 
 //////////////////////////////////////////////////////////////////////
 
 static void uart1_rx_callback(uint16_t data_cnt)
 {
-    uint8_t got_byte = uart1_buffer;
+    byte got_byte = uart1_buffer;
     uart_receive(UART1, &uart1_buffer, 1, UART_OP_INTR);
 
     // if top bit is set, it's a checksum byte, grab it and reset stuff
     if((got_byte & 0x80) != 0) {
-        uart_rx_byte_count = 0;
-        uart_rx_data[0] = got_byte & 0x7f;
-        arch_printf("Got checksum: ");
-        print_uint32(got_byte & 0xff);
+
+        uart_rx_data = got_byte;
+        print_uint32("Got checksum: ", got_byte & 0xff);
+
     } else {
-        // if top bit is clear, it's a data byte, add it to the data and if got 3 check it
-        uart_rx_byte_count += 1;
-        uart_rx_data[uart_rx_byte_count] = got_byte & 0x7f;
-        if(uart_rx_byte_count == 3) {
-            uint32_t payload = decode_message(uart_rx_data);
+
+        // top bit is clear, it's a data byte, add it to the data and if got 3 check it
+        uart_rx_data = (uart_rx_data << 8) | got_byte;
+
+        if((uart_rx_data & 0x80000000) != 0) {
+
+            uint32_t payload = um_decode_message(uart_rx_data);
+
             if(payload != 0xffffffff) {
-                send_message(payload);
+
+                um_encode_message(payload, uart_tx_data);
+                uart_send(UART1, uart_tx_data, 4, UART_OP_INTR);
                 GPIO_TOGGLE(GPIO_LED_PORT, GPIO_LED_PIN);
-                arch_printf("Got message ");
-                print_uint32(payload);
-                send_payload(payload);
+                print_uint32("Got message ", payload);
                 if(button_notifications_enabled) {
-                    struct custs1_val_ntf_ind_req *req =
-                        KE_MSG_ALLOC_DYN(CUSTS1_VAL_NTF_REQ, prf_get_task_from_id(TASK_ID_CUSTS1), TASK_APP,
-                                         custs1_val_ntf_ind_req, DEF_SVC1_CTRL_POINT_CHAR_LEN);
-                    req->handle = SVC1_IDX_CONTROL_POINT_VAL;
-                    req->length = 4;
-                    req->notification = true;
-                    memcpy(req->value, &payload, 4);
-                    ke_msg_send(req);
+                    ble_control_point_send_payload(payload);
                 }
-                // send a HID mouse report based on what it was
-                //int8 rotation = (int8)(payload << 6) >> 6;
                 byte data[8];
                 memset(data, 0, 8);
-                data[2] = 4;
+                if(((payload >> UM_BTN1_PRESSED_POS) & UM_BTN1_PRESSED_MASK) != 0) {
+                    data[2] = 4;
+                }
+                if(((payload >> UM_BTN1_RELEASED_POS) & UM_BTN1_RELEASED_MASK) != 0) {
+                    data[2] = 0;
+                }
+                if(((payload >> UM_BTN2_PRESSED_POS) & UM_BTN2_PRESSED_MASK) != 0) {
+                    data[3] = 5;
+                }
+                if(((payload >> UM_BTN2_RELEASED_POS) & UM_BTN2_RELEASED_MASK) != 0) {
+                    data[3] = 0;
+                }
+                int rot1 = (payload >> UM_ROT1_ROTATED_POS) & UM_ROT1_ROTATED_MASK;
+                switch(rot1) {
+                    case 1:
+                        data[4] = 6;
+                        break;
+                    case 3:
+                        data[4] = 7;
+                        break;
+                }
                 app_hogpd_send_report(HID_KEYBOARD_REPORT_IDX, data, 8, HOGPD_REPORT);
-                data[2] = 0;
-                app_hogpd_send_report(HID_KEYBOARD_REPORT_IDX, data, 8, HOGPD_REPORT);
-         } else {
-                arch_printf("Err, expected ");
-                print_uint32(uart_rx_data[0]);
-            }
-            uart_rx_byte_count = 0;
+                if(data[4] != 0) {
+                    data[4] = 0;
+                    app_hogpd_send_report(HID_KEYBOARD_REPORT_IDX, data, 8, HOGPD_REPORT);
+                }
+                print_uint32("Good payload: ", payload);
+             } else {
+                print_uint32("Err, got ", uart_rx_data >> 24);
+             }
         }
     }
 }

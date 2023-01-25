@@ -12,8 +12,7 @@ static void app_hogpd_report_upd_rsp_handler(void const *param)
 {
     struct hogpd_report_upd_rsp *par = (struct hogpd_report_upd_rsp *)param;
 
-    arch_printf("report_upd_rsp:");
-    print_uint32(par->status);
+    print_uint32("report_upd_rsp:", par->status);
     // Clear pending ack's for param->report_nb == 0 (normal key report) and == 2 (ext. key report)
     switch(par->status) {
     case PRF_ERR_UNEXPECTED_LEN:
@@ -40,8 +39,7 @@ static void app_hogpd_proto_mode_ind_handler(void const *param, ke_task_id_t con
 {
     struct hogpd_proto_mode_req_ind *par = (struct hogpd_proto_mode_req_ind *)param;
 
-    arch_printf("proto_mode_ind:");
-    print_uint32(hogpd_params.boot_protocol_mode);
+    print_uint32("proto_mode_ind:", hogpd_params.boot_protocol_mode);
 
     if(hogpd_params.boot_protocol_mode) {
         app_hogpd_call_store_attibute_callback(ATT_CHAR_PROTOCOL_MODE, 0, par->proto_mode);
@@ -66,8 +64,7 @@ static void app_hogpd_ntf_config_ind_handler(void const *param)
     uint16_t new_ntf = ind->ntf_cfg[0];
     uint16_t ntf_xor = new_ntf ^ report_ntf;
 
-    arch_printf("ntf_config:");
-    print_uint32(new_ntf);
+    print_uint32("ntf_config:", new_ntf);
 
     if(ntf_xor & 0x01) {
         app_hogpd_call_store_attibute_callback(ATT_CHAR_BOOT_KB_IN_REPORT, 0, new_ntf & 0x01);
@@ -99,9 +96,8 @@ static void app_hogpd_report_ind_handler(void const *param, ke_task_id_t const d
     uint16_t report_length = 0;
     uint8_t *report_data = NULL;
 
-    arch_printf("hogpd_report:");
-    print_uint32(par->operation);
-    print_uint32(par->report.type);
+    print_uint32("hogpd_report:op", par->operation);
+    print_uint32("hogpd_report:type", par->report.type);
         
     if(par->operation == HOGPD_OP_REPORT_READ) {
         switch(par->report.type) {
@@ -156,8 +152,7 @@ static void app_hogpd_report_ind_handler(void const *param, ke_task_id_t const d
 enum process_event_response app_hogpd_process_handler(ke_msg_id_t const msgid, void const *param,
                                                       ke_task_id_t const dest_id, ke_task_id_t const src_id)
 {
-    arch_printf("hogpd_process:");
-    print_uint32(msgid);
+    print_uint32("hogpd_process:", msgid);
     
     switch(msgid) {
     case HOGPD_REPORT_UPD_RSP:
