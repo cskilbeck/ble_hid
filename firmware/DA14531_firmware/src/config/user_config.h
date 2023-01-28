@@ -127,7 +127,7 @@ static const struct advertise_configuration user_adv_conf = {
 /// Advertising data
 #define USER_ADVERTISE_DATA         ("\x03"\
                                     ADV_TYPE_APPEARANCE\
-                                    ADV_APPEARANCE_MOUSE\
+                                    ADV_APPEARANCE_HUMAN_INTERFACE_DEVICE_HID\
                                     "\x05"\
                                     ADV_TYPE_INCOMPLETE_LIST_16BIT_SERVICE_IDS\
                                     ADV_UUID_DEVICE_INFORMATION_SERVICE\

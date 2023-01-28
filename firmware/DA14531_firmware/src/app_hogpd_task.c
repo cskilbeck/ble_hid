@@ -154,8 +154,6 @@ static void app_hogpd_report_ind_handler(void const *param, ke_task_id_t const d
 enum process_event_response app_hogpd_process_handler(ke_msg_id_t const msgid, void const *param,
                                                       ke_task_id_t const dest_id, ke_task_id_t const src_id)
 {
-    print_uint32("hogpd_process:", msgid);
-    
     switch(msgid) {
     case HOGPD_REPORT_UPD_RSP:
         app_hogpd_report_upd_rsp_handler(param);
@@ -173,6 +171,7 @@ enum process_event_response app_hogpd_process_handler(ke_msg_id_t const msgid, v
         app_hogpd_report_ind_handler(param, dest_id, src_id);
         break;
     default:
+        print_uint32("hogpd_process:", msgid);
         return PR_EVENT_UNHANDLED;
     }
     return PR_EVENT_HANDLED;

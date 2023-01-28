@@ -38,19 +38,21 @@ uint8 const led_gamma[256] = {
 
 //////////////////////////////////////////////////////////////////////
 
-volatile uint32 ticks;       // 10Khz tick
-uint32 idle_ticks;           // last activity timestamp
-button btn1;                 // button1 - action / wakeup
-button btn2;                 // button2 - encoder 0 click
-rotary_encoder encoder_0;    // 1st rotary encoder
-
-int32 sent_payload;
-uint32 uart_rx_word;
-
-volatile bool uart_tx_busy = false;
-byte uart_tx_buffer[4];
-
+// how long without button activity until device goes to standby
 static constexpr uint32 idle_standby_ticks = 10 * 10000;
+
+volatile uint32 ticks;         // 10Khz tick
+uint32 idle_ticks;             // last activity timestamp
+button btn1;                   // button1 - action / wakeup
+button btn2;                   // button2 - encoder 0 click
+rotary_encoder encoder_0;      // 1st rotary encoder
+bool buttons_enabled;          // button reader activation
+int32 sent_payload;            // last uart payload sent
+uint32 uart_rx_word;           // uart rx incoming data
+volatile bool uart_tx_busy;    // is uart tx still sending
+byte uart_tx_buffer[4];        // uart tx outgoing data
+uint32 led_ticks;              // when led effect ends
+bool led_on;                   // is led effect ongoing
 
 //////////////////////////////////////////////////////////////////////
 // rotary encoder reader
@@ -134,11 +136,22 @@ void clear_standby_mode()
 
 //////////////////////////////////////////////////////////////////////
 
-void set_led_rgb24(byte r, byte g, byte b)
+void set_led_rgb24(byte r, byte g, byte b, uint32 duration_ticks = 0)
 {
     LL_TIM_OC_SetCompareCH1(TIM3, led_gamma[b]);
     LL_TIM_OC_SetCompareCH2(TIM3, led_gamma[g]);
     LL_TIM_OC_SetCompareCH4(TIM3, led_gamma[r]);
+    led_on = duration_ticks != 0;
+    led_ticks = ticks + duration_ticks;
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void led_update()
+{
+    if(led_on && ticks == led_ticks) {
+        set_led_rgb24(0, 0, 0);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -191,17 +204,21 @@ extern "C" void user_main(void)
 
     ticks = 0;
 
-    // rapid led flash until button is released
+    // red flash until button is released
     while((BTN1_WAKE_GPIO_Port->IDR & BTN1_WAKE_Pin) != 0) {
-        DEBUG_LED_GPIO_Port->BSRR = DEBUG_LED_Pin << (((ticks >> 9) & 1) << 4);
+        set_led_rgb24(ticks >> 3, 0, 0);
         __WFI();
     }
-    
+    set_led_rgb24(0, 0, 0);
+
+    buttons_enabled = true;
+
     // at this point, we could set the SWD pins as GPIOs...
 
     // main loop
     while(1) {
         __WFI();
+        led_update();
     }
 }
 
@@ -239,7 +256,8 @@ extern "C" void uart_irq_handler(void)
 
                 // checksum checked out?
                 if(payload == sent_payload) {
-                    DEBUG_LED_GPIO_Port->ODR ^= DEBUG_LED_Pin;
+                    set_led_rgb24(0, 255, 0, 250);
+                    // DEBUG_LED_GPIO_Port->ODR ^= DEBUG_LED_Pin;
                 }
             }
         }
@@ -254,8 +272,14 @@ extern "C" void timer14_irq_handler(void)
 
     bool send = false;
 
+    ticks += 1;
+
+    if(!buttons_enabled) {
+        return;
+    }
+
     int btn1_state = READ_GPIO(BTN1_WAKE_GPIO_Port, BTN1_WAKE_Pin);
-    
+
     // invert because it's a pull-up
     int btn2_state = 1 - READ_GPIO(BTN2_GPIO_Port, BTN2_Pin);
 
@@ -272,24 +296,23 @@ extern "C" void timer14_irq_handler(void)
     if(send) {
 
         uint32 data = 0;
-        
+
         data |= (btn1.was_pressed() & UM_BTN1_PRESSED_MASK) << UM_BTN1_PRESSED_POS;
         data |= (btn1.was_released() & UM_BTN1_RELEASED_MASK) << UM_BTN1_RELEASED_POS;
 
         data |= (btn2.was_pressed() & UM_BTN2_PRESSED_MASK) << UM_BTN2_PRESSED_POS;
         data |= (btn2.was_released() & UM_BTN2_RELEASED_MASK) << UM_BTN2_RELEASED_POS;
 
-        //data |= (btn3.pressed & UM_BTN3_PRESSED_MASK) << UM_BTN3_PRESSED_POS;
-        //data |= (btn3.released & UM_BTN3_PRESSED_MASK) << UM_BTN3_PRESSED_POS;
+        // data |= (btn3.pressed & UM_BTN3_PRESSED_MASK) << UM_BTN3_PRESSED_POS;
+        // data |= (btn3.released & UM_BTN3_PRESSED_MASK) << UM_BTN3_PRESSED_POS;
 
         data |= (encoder_0_direction & UM_ROT1_ROTATED_MASK) << UM_ROT1_ROTATED_POS;
 
-        //data |= (encoder_1_direction & UM_ROT2_ROTATED_MASK) << UM_ROT2_ROTATED_POS;
+        // data |= (encoder_1_direction & UM_ROT2_ROTATED_MASK) << UM_ROT2_ROTATED_POS;
 
         sent_payload = send_message(data);
+        set_led_rgb24(0, 0, 255, 125);
     }
-    ticks += 1;
-
 #if !defined(DISABLE_STANDBY)
     if((ticks - idle_ticks) > idle_standby_ticks) {
         enter_standby_mode();

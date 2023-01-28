@@ -31,7 +31,7 @@ uint16_t app_hogpd_report_handle(uint8_t report_nb);
 
 //////////////////////////////////////////////////////////////////////
 
-#define WITH_KEYBOARD 0
+#define WITH_KEYBOARD 1
 
 #if WITH_KEYBOARD
 

@@ -22,7 +22,7 @@
 #define CFG_HOST
 #define CFG_ALLROLES        1
 #define CFG_GTL
-//#define CFG_BLE
+#define CFG_BLE 1
 #define CFG_EXT_DB
 
 #if defined (__DA14531__)
