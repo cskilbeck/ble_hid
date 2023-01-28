@@ -166,7 +166,7 @@
 #endif
 
 #if (defined(CFG_PERIPHERAL)  || defined(CFG_ALLROLES))
-#define BLE_PERIPHERAL          1
+#define BLE_PERIPHERAL          1   // SDK MODIFICATION NOTE: Brackets removed to suppress incompatible redefinition warning
 #else
 #define BLE_PERIPHERAL          (0)
 #endif
