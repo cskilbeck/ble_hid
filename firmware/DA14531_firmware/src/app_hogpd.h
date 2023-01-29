@@ -8,6 +8,8 @@
 #include "hogpd.h"
 #include "hogpd_task.h"
 
+#define STATIC_ASSERT(x) extern char static_assert_foo[x];
+
 //////////////////////////////////////////////////////////////////////
 
 void app_hogpd_enable(uint8_t conidx);
@@ -31,35 +33,84 @@ uint16_t app_hogpd_report_handle(uint8_t report_nb);
 
 //////////////////////////////////////////////////////////////////////
 
-#define WITH_KEYBOARD 1
+#define HID_WITH_KEYBOARD 1
+#define HID_WITH_MOUSE 1
+#define HID_WITH_CONSUMER 1
 
-#if WITH_KEYBOARD
+STATIC_ASSERT(HID_WITH_CONSUMER || HID_WITH_KEYBOARD || HID_WITH_MOUSE);
 
-#define HID_KEYBOARD_REPORT_ID 1
-#define HID_KEYBOARD_REPORT_SIZE 8
+//////////////////////////////////////////////////////////////////////
 
-#define HID_CONSUMER_REPORT_ID 2
+enum HID_REPORT_IDs
+{
+    HID_NULL_REPORT_ID = 0,
+
+#if HID_WITH_KEYBOARD
+    HID_KEYBOARD_REPORT_ID,
+#endif
+
+#if HID_WITH_MOUSE
+    HID_MOUSE_REPORT_ID,
+#endif
+
+#if HID_WITH_CONSUMER
+    HID_CONSUMER_REPORT_ID
+#endif
+};
+
+//////////////////////////////////////////////////////////////////////
+
+enum hogpd_indexes
+{
+#if HID_WITH_KEYBOARD
+    HID_KEYBOARD_REPORT_IDX,
+#endif
+
+#if HID_WITH_MOUSE
+    HID_MOUSE_REPORT_IDX,
+#endif
+
+#if HID_WITH_CONSUMER
+    HID_CONSUMER_REPORT_IDX,
+#endif
+
+    HID_NUM_OF_REPORTS    // Don't remove this.
+};
+
+//////////////////////////////////////////////////////////////////////
+
+// Format and size of hid reports is determined by the descriptors in app_hogpd.c / report_map[]
+
+#pragma pack(push, 1)
+
+struct hid_keyboard_report_t
+{
+    uint8_t modifiers;
+    uint8_t reserved;
+    uint8_t key_state[2];
+};
+
+struct hid_mouse_report_t
+{
+    uint8_t buttons;
+    int8_t x;
+    int8_t y;
+};
+
+struct hid_consumer_report_t
+{
+    uint8_t key_states;
+};
+
+#pragma pack(pop)
+
+#define HID_KEYBOARD_REPORT_SIZE 4
+#define HID_MOUSE_REPORT_SIZE 3
 #define HID_CONSUMER_REPORT_SIZE 1
 
-enum hogpd_indexes
-{
-    HID_KEYBOARD_REPORT_IDX = 0,
-    HID_CONSUMER_REPORT_IDX,
-    HID_NUM_OF_REPORTS    // Don't remove this.
-};
-
-#else
-
-#define HID_CONSUMER_REPORT_ID 1
-#define HID_CONSUMER_REPORT_SIZE 2
-
-enum hogpd_indexes
-{
-    HID_CONSUMER_REPORT_IDX = 0,
-    HID_NUM_OF_REPORTS    // Don't remove this.
-};
-
-#endif
+STATIC_ASSERT(sizeof(struct hid_keyboard_report_t) == HID_KEYBOARD_REPORT_SIZE);
+STATIC_ASSERT(sizeof(struct hid_mouse_report_t) == HID_MOUSE_REPORT_SIZE);
+STATIC_ASSERT(sizeof(struct hid_consumer_report_t) == HID_CONSUMER_REPORT_SIZE);
 
 //////////////////////////////////////////////////////////////////////
 
@@ -68,6 +119,4 @@ extern const hogpd_reports_t hogpd_reports[HID_NUM_OF_REPORTS];
 extern const hogpd_params_t hogpd_params;
 
 extern const uint8_t report_map[];
-
 extern const int report_map_len;
-

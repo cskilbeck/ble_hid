@@ -35,7 +35,7 @@
 
 enum
 {
-    // Custom Service 1
+    // Custom Service 2
     SVC2_IDX_SVC = 0,
 
     CUST2_IDX_SERVER_RX_CHAR,

@@ -34,7 +34,7 @@
 #define UM_ROT1_ROTATED_MASK 3
 #define UM_ROT2_ROTATED_MASK 3
 
-#define UM_EXTRACT(data, name) ((data >> UM_ ## name ## _POS) & UM_ ## name ## _MASK)
+#define UM_EXTRACT(data, name) ((data >> UM_##name##_POS) & UM_##name##_MASK)
 
 #define ROT_DIR_CLOCKWISE 1
 #define ROT_DIR_ANTICLOCKWISE 3
@@ -75,7 +75,7 @@ static inline int32 um_decode_message(uint32 data)
 
 //////////////////////////////////////////////////////////////////////
 
-static inline int32 um_encode_message(uint32 message, uint8 buffer[4])
+static inline int32 um_encode_message(int32 message, uint8 buffer[4])
 {
     int d0 = message & 0x7f;
     int d1 = (message >> 7) & 0x7f;

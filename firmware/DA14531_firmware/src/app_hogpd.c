@@ -10,13 +10,23 @@
 
 const hogpd_reports_t hogpd_reports[HID_NUM_OF_REPORTS] = {
 
-#if WITH_KEYBOARD
+#if HID_WITH_KEYBOARD
     [HID_KEYBOARD_REPORT_IDX] = { .id = HID_KEYBOARD_REPORT_ID,
                                   .size = HID_KEYBOARD_REPORT_SIZE,
                                   .cfg = HOGPD_CFG_REPORT_IN | HOGPD_REPORT_NTF_CFG_MASK | HOGPD_CFG_REPORT_WR,
                                   .read_callback = NULL,
                                   .write_callback = NULL },
+
 #endif
+
+#if HID_WITH_MOUSE
+    [HID_MOUSE_REPORT_IDX] = { .id = HID_MOUSE_REPORT_ID,
+                               .size = HID_MOUSE_REPORT_SIZE,
+                               .cfg = HOGPD_CFG_REPORT_IN | HOGPD_REPORT_NTF_CFG_MASK | HOGPD_CFG_REPORT_WR,
+                               .read_callback = NULL,
+                               .write_callback = NULL },
+#endif
+
     [HID_CONSUMER_REPORT_IDX] = { .id = HID_CONSUMER_REPORT_ID,
                                   .size = HID_CONSUMER_REPORT_SIZE,
                                   .cfg = HOGPD_CFG_REPORT_IN | HOGPD_REPORT_NTF_CFG_MASK | HOGPD_CFG_REPORT_WR,
@@ -66,67 +76,123 @@ const hogpd_params_t hogpd_params = {
 
 const uint8_t report_map[] = {
 
-#if WITH_KEYBOARD
+#if HID_WITH_KEYBOARD
 
     // Report: Standard keyboard
 
-    0x05, 0x01,          // Usage Page: Generic Desktop Controls
-    0x09, 0x06,          // Usage: Keyboard
-    0xA1, 0x01,          // Collection: Application
-    0x85, HID_KEYBOARD_REPORT_ID,
-    0x05, 0x07,          // Usage Page: Keyboard
-    0x19, 0xE0,          // Usage Minimum: Keyboard LeftControl
-    0x29, 0xE7,          // Usage Maximum: Keyboard Right GUI
-    0x15, 0x00,          // Logical Minimum: 0
-    0x25, 0x01,          // Logical Maximum: 1
-    0x75, 0x01,          // Report Size: 1
-    0x95, 0x08,          // Report Count: 8
-    0x81, 0x02,          // Input: Data, Array, Absolute
-    0x95, 0x01,          // Report Count: 1
-    0x75, 0x08,          // Report Size: 8
-    0x81, 0x01,          // Input: Constant, Array, Absolue
-    0x95, 0x03,          // Report Count: 3
-    0x75, 0x01,          // Report Size: 1
-    0x05, 0x08,          // Usage Page: LEDs
-    0x19, 0x01,          // Usage Minimum: Num Lock
-    0x29, 0x03,          // Usage Maximum: Scroll Lock
-    0x91, 0x02,          // Output: Data
-    0x95, 0x05,          // Report Count: 5
-    0x75, 0x01,          // Report Size: 1
-    0x91, 0x01,          // Output: Constant, Array, Absolute
-    0x95, 0x06,          // Report Count: 6
-    0x75, 0x08,          // Report Size: 8
-    0x15, 0x00,          // Logical Minimum: 0
-    0x26, 0xFF, 0x00,    // Logical Maximum: 255
-    0x05, 0x07,          // Usage Page: Keyboard/Keypad
-    0x19, 0x00,          // Usage Minimum: 0
-    0x2A, 0xFF, 0x00,    // Usage Maximum: 255
-    0x81, 0x00,          // Input: Data, Var, Absolute
-    0xC0,                // End collection
+    0x05, 0x01,                     // Usage Page: Generic Desktop Controls
+    0x09, 0x06,                     // Usage: Keyboard
+    0xa1, 0x01,                     // Collection: Application
+    0x85, HID_KEYBOARD_REPORT_ID,   // Report ID=N
+
+    // modifier keys
+    0x05, 0x07,                     // Usage Page: Keyboard
+    0x19, 0xe0,                     // Usage Minimum: Keyboard LeftControl
+    0x29, 0xe7,                     // Usage Maximum: Keyboard Right GUI
+    0x15, 0x00,                     // Logical Minimum: 0
+    0x25, 0x01,                     // Logical Maximum: 1
+    0x75, 0x01,                     // Report Size: 1
+    0x95, 0x08,                     // Report Count: 8
+    0x81, 0x02,                     // Input: Data, Array, Absolute
+
+    // reserved byte (required)
+    0x95, 0x01,                     // Report Count: 1
+    0x75, 0x08,                     // Report Size: 8
+    0x81, 0x01,                     // Input: Constant, Array, Absolute
+
+    // leds x 3
+    0x95, 0x03,                     // Report Count: 3
+    0x75, 0x01,                     // Report Size: 1
+    0x05, 0x08,                     // Usage Page: LEDs
+    0x19, 0x01,                     // Usage Minimum: Num Lock
+    0x29, 0x03,                     // Usage Maximum: Scroll Lock
+    0x91, 0x02,                     // Output: Data
+
+    // pad bits x 5
+    0x95, 0x05,                     // Report Count: 5
+    0x75, 0x01,                     // Report Size: 1
+    0x91, 0x01,                     // Output: Constant, Array, Absolute
+
+    // key states x 2
+    0x95, 0x02,                     // Report Count: # of key rollover
+    0x75, 0x08,                     // Report Size: 8
+    0x15, 0x00,                     // Logical Minimum: 0
+    0x25, 0x65,                     // Logical Maximum: 101
+    0x05, 0x07,                     // Usage Page: Keyboard/Keypad
+    0x19, 0x00,                     // Usage Minimum: 0
+    0x29, 0x65,                     // Usage Maximum: 101
+    0x81, 0x00,                     // Input: Data, Var, Absolute
+
+    0xc0,                           // End collection
+
 #endif
+
+#if HID_WITH_MOUSE
+
+    // Report: Mouse
+
+    0x05, 0x01,                    // Usage Page: Generic Desktop Controls
+    0x09, 0x02,                    // USAGE (Mouse)
+    0xa1, 0x01,                    // COLLECTION (Application)
+    0x85, HID_MOUSE_REPORT_ID,     // Report ID=N
+    0x09, 0x01,                    //   USAGE (Pointer)
+
+    // 3 buttons
+    0x05, 0x09,                    //   USAGE_PAGE (Button)
+    0x19, 0x01,                    //   USAGE_MINIMUM (Button 1)
+    0x29, 0x03,                    //   USAGE_MAXIMUM (Button 3)
+    0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
+    0x25, 0x01,                    //   LOGICAL_MAXIMUM (1)
+    0x95, 0x03,                    //   REPORT_COUNT (3)
+    0x75, 0x01,                    //   REPORT_SIZE (1)
+    0x81, 0x02,                    //   INPUT (Data,Var,Abs)
+    
+    // 5 pad bits
+    0x95, 0x01,                    //   REPORT_COUNT (1)
+    0x75, 0x05,                    //   REPORT_SIZE (5)
+    0x81, 0x03,                    //   INPUT (Cnst,Var,Abs)
+    
+    // 2 x 8 bit x,y
+    0x05, 0x01,                    //   USAGE_PAGE (Generic Desktop)
+    0x09, 0x30,                    //   USAGE (X)
+    0x09, 0x31,                    //   USAGE (Y)
+    0x15, 0x81,                    //   LOGICAL_MINIMUM (-127)
+    0x25, 0x7f,                    //   LOGICAL_MAXIMUM (127)
+    0x75, 0x08,                    //   REPORT_SIZE (8)
+    0x95, 0x02,                    //   REPORT_COUNT (2)
+    0x81, 0x06,                    //   INPUT (Data,Var,Rel)
+
+    0xc0,                          // END_COLLECTION
+
+#endif
+
+#if HID_WITH_CONSUMER
 
     // Report: Consumer Control Device
 
-    0x05, 0x0C,                     // Usage Page (Consumer Devices)
+    0x05, 0x0c,                     // Usage Page (Consumer Devices)
 	0x09, 0x01,                     // Usage (Consumer Control)
-	0xA1, 0x01,                     // Collection (Application)
+	0xa1, 0x01,                     // Collection (Application)
 	0x85, HID_CONSUMER_REPORT_ID,	// Report ID=N
-	0x05, 0x0C,                     // Usage Page (Consumer Devices)
+    
+    // 8 x key states
+	0x95, 0x08,                     // Report Count (8)
+	0x75, 0x01,                     // Report Size (1)
 	0x15, 0x00,                     // Logical Minimum (0)
 	0x25, 0x01,                     // Logical Maximum (1)
-	0x75, 0x01,                     // Report Size (1)
-	0x95, 0x08,                     // Report Count (8)
-	0x09, 0xB5,                     // Usage8 (Scan Next Track)
-	0x09, 0xB6,                     // Usage8 (Scan Previous Track)
-	0x09, 0xB7,                     // Usage8 (Stop)
-	0x09, 0xCD,                     // Usage8 (Play / Pause)
-	0x09, 0xE2,                     // Usage8 (Mute)
-	0x09, 0xE9,                     // Usage8 (Volume Up)
-	0x09, 0xEA,                     // Usage8 (Volume Down)
-    0x0A, 0xAE, 0x01,               // Usage16 AL Keyboard Layout
+	0x09, 0xb5,                     // Usage8 (Scan Next Track)
+	0x09, 0xb6,                     // Usage8 (Scan Previous Track)
+	0x09, 0xb7,                     // Usage8 (Stop)
+	0x09, 0xcd,                     // Usage8 (Play / Pause)
+	0x09, 0xe2,                     // Usage8 (Mute)
+	0x09, 0xe9,                     // Usage8 (Volume Up)
+	0x09, 0xea,                     // Usage8 (Volume Down)
+    0x0a, 0xae, 0x01,               // Usage16 AL Keyboard Layout
 	0x81, 0x02,                     // Input (Data, Variable, Absolute)
-	0xC0
 
+    0xc0,                           // End collection
+
+#endif
 };
 
 // clang-format on

@@ -26,8 +26,6 @@ uint8_t uart1_buffer;
 uint32_t uart_rx_data;
 uint8_t uart_tx_data[4];
 
-byte consumer_key_state;
-
 //////////////////////////////////////////////////////////////////////
 
 void print_uint32(char const *msg, uint32_t x)
@@ -83,39 +81,22 @@ void uart1_rx_callback(uint16_t data_cnt)
                     ble_control_point_send_payload(payload);
                 }
 
-                bool hid_send = false;
-
-                if(UM_EXTRACT(payload, BTN1_PRESSED) != 0) {
-                    consumer_key_state |= HID_CC_AL_KEYBOARD;
-                    hid_send = true;
-                }
-
-                if(UM_EXTRACT(payload, BTN1_RELEASED) != 0) {
-                    consumer_key_state &= ~HID_CC_AL_KEYBOARD;
-                    hid_send = true;
-                }
-
-                if(UM_EXTRACT(payload, BTN2_PRESSED) != 0) {
-                    consumer_key_state |= HID_CC_MUTE;
-                    hid_send = true;
-                }
-
-                if(UM_EXTRACT(payload, BTN2_RELEASED) != 0) {
-                    consumer_key_state &= ~HID_CC_MUTE;
-                    hid_send = true;
-                }
+#if HID_WITH_CONSUMER
+                bool send_consumer = false;
 
                 int rot = UM_EXTRACT(payload, ROT1_ROTATED);
+                
+                byte consumer_key_state = 0;
 
                 if(rot == ROT_DIR_CLOCKWISE) {
                     consumer_key_state |= HID_CC_VOLUME_UP;
-                    hid_send = true;
+                    send_consumer = true;
                 } else if(rot == ROT_DIR_ANTICLOCKWISE) {
                     consumer_key_state |= HID_CC_VOLUME_DOWN;
-                    hid_send = true;
+                    send_consumer = true;
                 }
 
-                if(hid_send) {
+                if(send_consumer) {
                     app_hogpd_send_report(HID_CONSUMER_REPORT_IDX, &consumer_key_state, HID_CONSUMER_REPORT_SIZE,
                                           HOGPD_REPORT);
 
@@ -127,16 +108,43 @@ void uart1_rx_callback(uint16_t data_cnt)
                                               HOGPD_REPORT);
                     }
                 }
+#endif
 
-#if WITH_KEYBOARD
-//                byte data[8];
-//                memset(data, 0, 8);
-//                if(((payload >> UM_BTN2_PRESSED_POS) & UM_BTN2_PRESSED_MASK) != 0) {
-//                    data[3] = 5;
-//                }
-//                if(((payload >> UM_BTN2_RELEASED_POS) & UM_BTN2_RELEASED_MASK) != 0) {
-//                    data[3] = 0;
-//                }
+#if HID_WITH_KEYBOARD
+                bool send_key = false;
+                struct hid_keyboard_report_t keyboard_report;
+                memset(&keyboard_report, 0, sizeof(keyboard_report));
+                if(UM_EXTRACT(payload, BTN1_PRESSED) != 0) {
+                    keyboard_report.key_state[0] = 5;
+                    send_key = true;
+                }
+                if(UM_EXTRACT(payload, BTN1_RELEASED) != 0) {
+                    keyboard_report.key_state[0] = 0;
+                    send_key = true;
+                }
+                if(send_key) {
+                    app_hogpd_send_report(HID_KEYBOARD_REPORT_IDX, (byte *)&keyboard_report, HID_KEYBOARD_REPORT_SIZE,
+                                          HOGPD_REPORT);
+                }
+#endif
+
+#if HID_WITH_MOUSE
+                bool send_mouse = false;
+                struct hid_mouse_report_t mouse_report;
+                memset(&mouse_report, 0, sizeof(mouse_report));
+                if(UM_EXTRACT(payload, BTN2_PRESSED) != 0) {
+                    mouse_report.x = 20;
+                    send_mouse = true;
+                }
+                if(UM_EXTRACT(payload, BTN2_RELEASED) != 0) {
+                    mouse_report.x = -20;
+                    send_mouse = true;
+                }
+                if(send_mouse) {
+                    app_hogpd_send_report(HID_MOUSE_REPORT_IDX, (byte *)&mouse_report, HID_MOUSE_REPORT_SIZE,
+                                          HOGPD_REPORT);
+                }
+
 #endif
                 print_uint32("Good payload: ", payload);
             } else {

@@ -136,11 +136,11 @@ void clear_standby_mode()
 
 //////////////////////////////////////////////////////////////////////
 
-void set_led_rgb24(byte r, byte g, byte b, uint32 duration_ticks = 0)
+void set_led_rgb24(uint32 rgb, uint32 duration_ticks = 0)
 {
-    LL_TIM_OC_SetCompareCH1(TIM3, led_gamma[b]);
-    LL_TIM_OC_SetCompareCH2(TIM3, led_gamma[g]);
-    LL_TIM_OC_SetCompareCH4(TIM3, led_gamma[r]);
+    LL_TIM_OC_SetCompareCH1(TIM3, led_gamma[rgb & 0xff]);
+    LL_TIM_OC_SetCompareCH2(TIM3, led_gamma[(rgb >> 8) & 0xff]);
+    LL_TIM_OC_SetCompareCH4(TIM3, led_gamma[(rgb >> 16) & 0xff]);
     led_on = duration_ticks != 0;
     led_ticks = ticks + duration_ticks;
 }
@@ -150,7 +150,7 @@ void set_led_rgb24(byte r, byte g, byte b, uint32 duration_ticks = 0)
 void led_update()
 {
     if(led_on && ticks == led_ticks) {
-        set_led_rgb24(0, 0, 0);
+        set_led_rgb24(0);
     }
 }
 
@@ -184,7 +184,7 @@ extern "C" void user_main(void)
     LL_TIM_EnableCounter(TIM14);
 
     // start timer3 (rgb led)
-    set_led_rgb24(0, 0, 0);
+    set_led_rgb24(0);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH2);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH4);
@@ -206,10 +206,18 @@ extern "C" void user_main(void)
 
     // red flash until button is released
     while((BTN1_WAKE_GPIO_Port->IDR & BTN1_WAKE_Pin) != 0) {
-        set_led_rgb24(ticks >> 3, 0, 0);
+        set_led_rgb24(((ticks >> 3) & 0xff) << 16);
         __WFI();
     }
-    set_led_rgb24(0, 0, 0);
+    
+    // boot led flash
+    for(uint32 i=0xff; i != 0xff000000; i <<= 8) {
+        set_led_rgb24(i, 1000);
+        while(led_on) {
+            led_update();
+            __WFI();
+        }
+    }
 
     buttons_enabled = true;
 
@@ -217,8 +225,8 @@ extern "C" void user_main(void)
 
     // main loop
     while(1) {
-        __WFI();
         led_update();
+        __WFI();
     }
 }
 
@@ -256,7 +264,7 @@ extern "C" void uart_irq_handler(void)
 
                 // checksum checked out?
                 if(payload == sent_payload) {
-                    set_led_rgb24(0, 255, 0, 250);
+                    set_led_rgb24(0x00ff00, 250);
                     // DEBUG_LED_GPIO_Port->ODR ^= DEBUG_LED_Pin;
                 }
             }
@@ -311,7 +319,7 @@ extern "C" void timer14_irq_handler(void)
         // data |= (encoder_1_direction & UM_ROT2_ROTATED_MASK) << UM_ROT2_ROTATED_POS;
 
         sent_payload = send_message(data);
-        set_led_rgb24(0, 0, 255, 125);
+        set_led_rgb24(0x0000ff, 125);
     }
 #if !defined(DISABLE_STANDBY)
     if((ticks - idle_ticks) > idle_standby_ticks) {

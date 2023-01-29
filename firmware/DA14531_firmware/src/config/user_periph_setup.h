@@ -14,14 +14,14 @@
 
 //////////////////////////////////////////////////////////////////////
 
-#define GPIO_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5)))
-#define GPIO_SET_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5) + 2))
-#define GPIO_CLR_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + (port << 5) + 4))
-#define GPIO_MODE_REG(port, pin) (*(volatile uint16_t)(GPIO_BASE + (port << 5) + 6 + (pin << 1)))
+#define GPIO_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + ((port) << 5)))
+#define GPIO_SET_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + ((port) << 5) + 2))
+#define GPIO_CLR_DATA_REG(port) (*(volatile uint16_t *)(GPIO_BASE + ((port) << 5) + 4))
+#define GPIO_MODE_REG(port, pin) (*(volatile uint16_t *)(GPIO_BASE + ((port) << 5) + 6 + ((pin) << 1)))
 
-#define GPIO_SET(port, pin) (GPIO_SET_DATA_REG(port) = (1 << pin))
-#define GPIO_CLEAR(port, pin) (GPIO_CLR_DATA_REG(port) = (1 << pin))
-#define GPIO_TOGGLE(port, pin) (GPIO_DATA_REG(port) ^= (1 << pin))
+#define GPIO_SET(port, pin) (GPIO_SET_DATA_REG(port) = (1 << (pin)))
+#define GPIO_CLEAR(port, pin) (GPIO_CLR_DATA_REG(port) = (1 << (pin)))
+#define GPIO_TOGGLE(port, pin) (GPIO_DATA_REG(port) ^= (1 << (pin)))
 
 //////////////////////////////////////////////////////////////////////
 // GPIO TYPE    FUNCTION
